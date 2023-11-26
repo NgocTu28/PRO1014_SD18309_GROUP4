@@ -14,9 +14,9 @@ public class NhanVien {
 
     private Long id;
     private String MaNhanVien;
-    private String HovaTen;  
-    private  String Password;
-    private  String CCCD;
+    private String HovaTen;
+    private String Password;
+    private String CCCD;
     private String Email;
     private String DiaChi;
     private String SDT;
@@ -42,7 +42,12 @@ public class NhanVien {
         this.MaNhanVien = maNhanVien;
         this.HovaTen = tenNhanVien;
     }
-    
+
+    public NhanVien(String maNhanVien, String tenNhanVien) {
+        this.MaNhanVien = maNhanVien;
+        this.HovaTen = tenNhanVien;
+    }
+
     public NhanVien(String MaNhanVien, String HovaTen, String Password, String CCCD, String Email, String DiaChi, String SDT, Date ngaysinh, Date ngaytao, boolean vaitro, boolean trangthailamviec) {
         this.MaNhanVien = MaNhanVien;
         this.HovaTen = HovaTen;
@@ -153,7 +158,6 @@ public class NhanVien {
         this.trangthailamviec = trangthailamviec;
     }
 
-    
     @Override
     public String toString() {
         return "NhanVien_M{" + "id=" + id + ", maNhanVien=" + MaNhanVien + ", tenNhanVien=" + HovaTen + '}';

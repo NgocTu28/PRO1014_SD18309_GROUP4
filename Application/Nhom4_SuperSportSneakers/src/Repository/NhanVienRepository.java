@@ -295,7 +295,7 @@ public class NhanVienRepository {
     public int getcreateddggbymanv(String manv) {
         int total = 0;
         try {
-            Connection con =  DBConnection.getConnect();
+            Connection con = DBConnection.getConnect();
             PreparedStatement stm = con.prepareStatement(getcreateddgg);
             stm.setString(1, manv);
             ResultSet rs = stm.executeQuery();
@@ -306,5 +306,34 @@ public class NhanVienRepository {
             throw new RuntimeException(e);
         }
         return total;
+    }
+
+    public NhanVien findNhanVien(String userName, String passWord) {
+        String query = "Select * From NHANVIEN where Email = ? AND MatKhau = ?";
+        NhanVien nv = new NhanVien();
+        Connection con = DBConnection.getConnect();
+        try {
+            PreparedStatement ps = con.prepareCall(query);
+            ps.setString(1, userName);
+            ps.setString(2, passWord);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+
+                nv.setMaNhanVien(rs.getString("MaNhanVien"));
+                nv.setTenNhanVien(rs.getString("HoVaTen"));
+                nv.setPassword(rs.getString("MatKhau"));
+                nv.setNgaysinh((rs.getDate("NgaySinh")));
+                nv.setEmail(rs.getString("Email"));
+                nv.setCCCD(rs.getString("CCCD"));
+                nv.setSDT(rs.getString("SDT"));
+                nv.setDiaChi(rs.getString("DiaChi"));
+                nv.setNgaytao((rs.getDate("NgayTao")));
+                nv.setVaitro(rs.getBoolean("VaiTro"));
+                nv.setTrangthailamviec(rs.getBoolean("TrangThai"));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return nv;
     }
 }

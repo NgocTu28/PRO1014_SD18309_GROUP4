@@ -1,5 +1,7 @@
 package raven.application.form;
 
+import Model.NhanVien;
+import Repository.NhanVienRepository;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.util.UIScale;
 import java.awt.Component;
@@ -7,14 +9,14 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.LayoutManager;
-import raven.application.Application;
-
+import javax.swing.JOptionPane;
+import raven.application.Application;   
 /**
  *
  * @author Raven
  */
 public class LoginForm extends javax.swing.JPanel {
-
+    private  NhanVienRepository nhanVienRepository = new NhanVienRepository();
     public LoginForm() {
         initComponents();
         init();
@@ -96,6 +98,9 @@ public class LoginForm extends javax.swing.JPanel {
                 .addComponent(cmdLogin)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        loginLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtPass, txtUser});
+
         loginLayout.setVerticalGroup(
             loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginLayout.createSequentialGroup()
@@ -133,7 +138,17 @@ public class LoginForm extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cmdLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdLoginActionPerformed
-        Application.login();
+        if(txtUser.getText().isEmpty() || txtPass.getPassword().length == 0){
+            JOptionPane.showMessageDialog(this, "Bạn đã để trống, vui lòng thử lại.", "Login Failed", JOptionPane.ERROR);
+        }else {
+            NhanVien nv = nhanVienRepository.findNhanVien(txtUser.getText(), txtPass.getText());
+            if(nv == null){
+                JOptionPane.showMessageDialog(this, "Login Failed!", "Thông Báo", JOptionPane.ERROR);
+            }else if(nv != null){
+                 JOptionPane.showMessageDialog(this, "Login Successfull!", "Thông Báo", JOptionPane.INFORMATION_MESSAGE);
+                Application.login();
+            }
+        }
     }//GEN-LAST:event_cmdLoginActionPerformed
 
     private class LoginFormLayout implements LayoutManager {

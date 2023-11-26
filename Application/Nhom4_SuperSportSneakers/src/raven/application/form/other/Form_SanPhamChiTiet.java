@@ -644,6 +644,11 @@ public class Form_SanPhamChiTiet extends javax.swing.JPanel {
                 txtSearchActionPerformed(evt);
             }
         });
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchKeyReleased(evt);
+            }
+        });
 
         jLabel13.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         jLabel13.setText("Lọc Trạng Thái");
@@ -1079,7 +1084,7 @@ public class Form_SanPhamChiTiet extends javax.swing.JPanel {
         String ketQua = chiTiet_Impl.importFile(selectedFile);
         if (ketQua.equals("Import thành công")) {
             listSanPhamChiTiet = sanPhamCT_Repository.get(page, 5);
-            
+
             fillToTable(listSanPhamChiTiet);
         }
         JOptionPane.showMessageDialog(this, ketQua);
@@ -1165,7 +1170,6 @@ public class Form_SanPhamChiTiet extends javax.swing.JPanel {
                         searchSanPham();
                         webcam.close();
                         thread.stop();
-                        System.out.println("1170 :");
                     }
 
                 } while (true);
@@ -1173,27 +1177,29 @@ public class Form_SanPhamChiTiet extends javax.swing.JPanel {
         };
         thread.setDaemon(true);
         thread.start();
-        System.out.println("1178 :");
     }
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // BTN Scan QR
         if (webcam != null) {
-            System.out.println("1184 web ko null :");
             if (webcam.isOpen()) {
-                System.out.println("1184 web mo :");
                 webcam.close();
                 thread.stop();
                 dlScanQr.setVisible(false);
             }
         }
-        System.out.println("``92 ");
         initWebcam();
         captureThread();
         dlScanQr.setVisible(true);
         dlScanQr.setSize(500, 500);
         dlScanQr.setLocationRelativeTo(null);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
+        List<SanPhamChiTiet> listSearch = sanPhamCT_Repository.search_SanPhamChiTiet(txtSearch.getText().trim());
+        System.out.println(listSearch);
+        fillToTable(listSearch);
+    }//GEN-LAST:event_txtSearchKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
