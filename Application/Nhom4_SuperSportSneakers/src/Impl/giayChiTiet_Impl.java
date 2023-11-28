@@ -103,6 +103,7 @@ public class giayChiTiet_Impl {
                 + (spct.getMoTa() == null ? "" : "\n Mô Tả" + spct.getMoTa())
                 + "\n Trạng Thái" + spct.getTrangThai();
         try {
+
             QRCodeWriter qrCodeWriter = new QRCodeWriter();
             Hashtable hints = new Hashtable();
             hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
@@ -111,10 +112,11 @@ public class giayChiTiet_Impl {
             // Write to file image
             Path path = FileSystems.getDefault().getPath(pathFolder + "\\" + spct.getMaSPCT() + "-" + spct.getIdSanPham().getTenSanpham() + ".png");
             String file1 = path.toString();
-            System.out.println(file1 + " " + ma);
+
             sanPhamChiTiet_Repo.updateQR(file1, ma);
             BufferedImage qrImage = MatrixToImageWriter.toBufferedImage(matrix);
             MatrixToImageWriter.writeToPath(matrix, "PNG", path);
+
         } catch (Exception ex) {
             Logger.getLogger(giayChiTiet_Impl.class.getName()).log(Level.SEVERE, null, ex);
             return "Lỗi hệ thống. Không thể export";

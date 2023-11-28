@@ -571,28 +571,6 @@ public class SanPhamCT_Repository {
         }
     }
 
-//    public void updateQR(String qr, String ma) {
-//        String query = "UPDATE CHI_TIET_SAN_PHAM SET QR = ? WHERE MaCTSP = ?";
-//        try {
-//            // Thiết lập giá trị cho các tham số trong câu lệnh SQL
-//            pstm.setString(1, qr);
-//            pstm.setString(2, ma);
-//
-//            // Thực hiện cập nhật vào cơ sở dữ liệu
-//            int rowsAffected = pstm.executeUpdate();
-//
-//            // Kiểm tra xem cập nhật có thành công không
-//            if (rowsAffected > 0) {
-//                System.out.println("Cập nhật thành công.");
-//            } else {
-//                System.out.println("Cập nhật không thành công. Không có bản ghi nào được cập nhật.");
-//            }
-//
-//        } catch (SQLException e) {
-//            // Xử lý các lỗi SQL
-//            e.printStackTrace();
-//        }
-//    }
     public void updateQR(String QR, String maCTSP) {
         String query = " UPDATE CHI_TIET_SAN_PHAM  set QR = '" + QR + "' WHERE MaCTSP = ?";
         try {
@@ -605,4 +583,18 @@ public class SanPhamCT_Repository {
         }
     }
 
+    public String searchQRInDB(String maCTSP) {
+        String query = "SELECT QR FROM CHI_TIET_SAN_PHAM WHERE MaCTSP = ?";
+        String qr = null;
+        try {
+            pstm = con.prepareStatement(query);
+            rs = pstm.executeQuery();
+            if (rs.next()) {
+                qr = rs.getString("QR");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ChiTietHoaDon_RepositoryM.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return qr;
+    }
 }
