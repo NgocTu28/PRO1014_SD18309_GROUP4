@@ -61,6 +61,53 @@ public class SanPhamCT_Repository {
         return list;
     }
 
+    public List<SanPhamChiTiet> searchItem(Long idMau, Long idSize, Long idThuongHieu, Long idSanPham) {
+        List<SanPhamChiTiet> list = new ArrayList<>();
+        if (connect != null) {
+            try {
+                StringBuilder query = new StringBuilder("SELECT CTSP.ID, CTSP.MaCTSP, SP.TenSP, TH.TenThuongHieu, S.TenSize, M.TenMau, CTSP.SoLuongTon, CTSP.GiaBan, CTSP.GiaNiemYet, CTSP.MoTa, CTSP.TrangThai, CTSP.ID as ID FROM CHI_TIET_SAN_PHAM as CTSP\n"
+                        + "JOIN MAU as M ON M.ID = CTSP.IdMau\n"
+                        + "JOIN SIZE as S ON S.ID = CTSP.IdSize\n"
+                        + "JOIN THUONGHIEU as TH ON TH.ID = CTSP.IdThuongHieu\n"
+                        + "JOIN SANPHAM as SP ON SP.ID = CTSP.IdSP\n"
+                        + " WHERE 1=1"
+                );
+
+                // Màu Sắc
+                if (idMau != null) {
+                    query.append(" AND M.ID = " + idMau);
+                }
+                // Kích Thước
+                if (idSize != null) {
+                    query.append(" AND S.ID = " + idSize);
+                }
+                // Thương Hiệu
+                if (idThuongHieu != null) {
+                    query.append(" AND TH.ID = " + idThuongHieu);
+                }
+                // Sản Phẩm
+                if (idSanPham != null) {
+                    query.append(" AND SP.ID = " + idSanPham);
+                }
+                String queryFinal = query.toString();
+
+                PreparedStatement ps = connect.prepareStatement(queryFinal);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    SanPham sanPham = new SanPham(rs.getString("TenSP"));
+                    MauSac mauSac = new MauSac(rs.getString("TenMau"));
+                    ThuongHieu thuongHieu = new ThuongHieu(rs.getString("TenThuongHieu"));
+                    KichThuoc kichThuoc = new KichThuoc(rs.getFloat("TenSize"));
+                    SanPhamChiTiet sanPhamChiTiet = new SanPhamChiTiet(rs.getLong("ID"), rs.getString("MaCTSP"), rs.getInt("SoLuongTon"), rs.getFloat("GiaBan"), rs.getFloat("GiaNiemYet"), rs.getInt("TrangThai"), rs.getString("MoTa"), mauSac, kichThuoc, thuongHieu, sanPham);
+                    list.add(sanPhamChiTiet);
+                }
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+        return list;
+    }
+
     public List<SanPhamChiTiet> search_SanPhamChiTiet(String text) {
         List<SanPhamChiTiet> listSearch = new ArrayList<>();
         String query = "select  CTSP.ID,CTSP.MaCTSP,SP.TenSP,TH.TenThuongHieu,S.TenSize,M.TenMau,CTSP.SoLuongTon, CTSP.GiaBan, CTSP.GiaNiemYet, CTSP.MoTa, CTSP.TrangThai , CTSP.ID as ID from CHI_TIET_SAN_PHAM as CTSP\n"
@@ -102,6 +149,60 @@ public class SanPhamCT_Repository {
         try {
             PreparedStatement ps = connect.prepareCall(query);
             ps.setInt(1, n);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                SanPham sanPham = new SanPham(rs.getString("TenSP"));
+                MauSac mauSac = new MauSac(rs.getString("TenMau"));
+                ThuongHieu thuongHieu = new ThuongHieu(rs.getString("TenThuongHieu"));
+                KichThuoc kichThuoc = new KichThuoc(rs.getFloat("TenSize"));
+
+                SanPhamChiTiet sanPhamChiTiet = new SanPhamChiTiet(rs.getLong("ID"), rs.getString("MaCTSP"), rs.getInt("SoLuongTon"), rs.getFloat("GiaBan"), rs.getFloat("GiaNiemYet"), rs.getInt("TrangThai"), rs.getString("MoTa"), mauSac, kichThuoc, thuongHieu, sanPham);
+                listSearch.add(sanPhamChiTiet);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return listSearch;
+    }
+
+    public List<SanPhamChiTiet> searchMauSac_SanPhamChiTiet(Long n) {
+        List<SanPhamChiTiet> listSearch = new ArrayList<>();
+        String query = "select  CTSP.ID,CTSP.MaCTSP,SP.TenSP,TH.TenThuongHieu,S.TenSize,M.TenMau,CTSP.SoLuongTon, CTSP.GiaBan, CTSP.GiaNiemYet, CTSP.MoTa, CTSP.TrangThai , CTSP.ID as ID from CHI_TIET_SAN_PHAM as CTSP\n"
+                + "join MAU as M on M.ID = CTSP.IdMau\n"
+                + "join SIZE as S on S.ID = CTSP.IdSize\n"
+                + "join THUONGHIEU as TH on TH.ID = CTSP.IdThuongHieu\n"
+                + "join SANPHAM as SP on SP.ID = CTSP.IdSP\n"
+                + "WHERE CTSP.IdMau = ?";
+        try {
+            PreparedStatement ps = connect.prepareCall(query);
+            ps.setLong(1, n);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                SanPham sanPham = new SanPham(rs.getString("TenSP"));
+                MauSac mauSac = new MauSac(rs.getString("TenMau"));
+                ThuongHieu thuongHieu = new ThuongHieu(rs.getString("TenThuongHieu"));
+                KichThuoc kichThuoc = new KichThuoc(rs.getFloat("TenSize"));
+
+                SanPhamChiTiet sanPhamChiTiet = new SanPhamChiTiet(rs.getLong("ID"), rs.getString("MaCTSP"), rs.getInt("SoLuongTon"), rs.getFloat("GiaBan"), rs.getFloat("GiaNiemYet"), rs.getInt("TrangThai"), rs.getString("MoTa"), mauSac, kichThuoc, thuongHieu, sanPham);
+                listSearch.add(sanPhamChiTiet);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return listSearch;
+    }
+
+    public List<SanPhamChiTiet> searchKichThuoc_SanPhamChiTiet(Long n) {
+        List<SanPhamChiTiet> listSearch = new ArrayList<>();
+        String query = "select  CTSP.ID,CTSP.MaCTSP,SP.TenSP,TH.TenThuongHieu,S.TenSize,M.TenMau,CTSP.SoLuongTon, CTSP.GiaBan, CTSP.GiaNiemYet, CTSP.MoTa, CTSP.TrangThai , CTSP.ID as ID from CHI_TIET_SAN_PHAM as CTSP\n"
+                + "join MAU as M on M.ID = CTSP.IdMau\n"
+                + "join SIZE as S on S.ID = CTSP.IdSize\n"
+                + "join THUONGHIEU as TH on TH.ID = CTSP.IdThuongHieu\n"
+                + "join SANPHAM as SP on SP.ID = CTSP.IdSP\n"
+                + "WHERE CTSP.IdSize = ?";
+        try {
+            PreparedStatement ps = connect.prepareCall(query);
+            ps.setLong(1, n);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 SanPham sanPham = new SanPham(rs.getString("TenSP"));
@@ -170,33 +271,32 @@ public class SanPhamCT_Repository {
     }
 
     public boolean insertListBienThe(List<SanPhamChiTiet_T> list) {
-    String query = "INSERT INTO CHI_TIET_SAN_PHAM (IdSP, IdThuongHieu, IdMau, IdSize, MaCTSP, SoLuongTon, GiaNiemYet, GiaBan, MoTa, TrangThai) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    boolean check = false;
+        String query = "INSERT INTO CHI_TIET_SAN_PHAM (IdSP, IdThuongHieu, IdMau, IdSize, MaCTSP, SoLuongTon, GiaNiemYet, GiaBan, MoTa, TrangThai) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        boolean check = false;
 
-    if (connect != null) {
-        try (PreparedStatement ps = connect.prepareStatement(query)) {
-            for (SanPhamChiTiet_T spct : list) {
-                ps.setLong(1, spct.getIdSanPham());
-                ps.setLong(2, spct.getIdThuongHieu());
-                ps.setLong(3, spct.getIdMau());
-                ps.setLong(4, spct.getIdKichThuoc());
-                ps.setString(5, spct.getMaSPCT());
-                ps.setInt(6, spct.getSoLuong());
-                ps.setFloat(7, spct.getGiaNiemYet());
-                ps.setFloat(8, spct.getGiaBan());
-                ps.setString(9, spct.getMoTa());
-                ps.setInt(10, spct.getTrangThai());
+        if (connect != null) {
+            try (PreparedStatement ps = connect.prepareStatement(query)) {
+                for (SanPhamChiTiet_T spct : list) {
+                    ps.setLong(1, spct.getIdSanPham());
+                    ps.setLong(2, spct.getIdThuongHieu());
+                    ps.setLong(3, spct.getIdMau());
+                    ps.setLong(4, spct.getIdKichThuoc());
+                    ps.setString(5, spct.getMaSPCT());
+                    ps.setInt(6, spct.getSoLuong());
+                    ps.setFloat(7, spct.getGiaNiemYet());
+                    ps.setFloat(8, spct.getGiaBan());
+                    ps.setString(9, spct.getMoTa());
+                    ps.setInt(10, spct.getTrangThai());
 
-                check = ps.execute();
+                    check = ps.execute();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return check = false;
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return check = false;
         }
+        return check = true;
     }
-    return check = true;
-}
-
 
     public void updateSPCT(SanPhamChiTiet spct, String maCTSP) {
         String query = " UPDATE CHI_TIET_SAN_PHAM  set SoLuongTon = ?,GiaNiemYet = ?,GiaBan = ?,MoTa = ?,TrangThai=? WHERE MaCTSP = ?";
@@ -440,6 +540,22 @@ public class SanPhamCT_Repository {
         return id;
     }
 
+    public String getMaSanPhamChiTietByMa(String maCTSP) {
+        String ma = null;
+        query = "SELECT MaCTSP FROM CHI_TIET_SAN_PHAM WHERE MaCTSP LIKE '" + maCTSP + "' ;";
+        con = DBConnection.getConnect();
+        try {
+            pstm = con.prepareStatement(query);
+            rs = pstm.executeQuery();
+            if (rs.next()) {
+                ma = rs.getString("MaCTSP");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ChiTietHoaDon_RepositoryM.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ma;
+    }
+
     public void updateSLSP(int sl, String maCTSP) {
         try {
             con = DBConnection.getConnect();
@@ -452,6 +568,29 @@ public class SanPhamCT_Repository {
             pstm.execute();
         } catch (SQLException ex) {
             Logger.getLogger(SanPhamCT_Repository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void updateQR(String qr, String ma) {
+        String query = "UPDATE CHI_TIET_SAN_PHAM SET QR = ? WHERE MaCTSP = ?";
+        try {
+            // Thiết lập giá trị cho các tham số trong câu lệnh SQL
+            pstm.setString(1, qr);
+            pstm.setString(2, ma);
+
+            // Thực hiện cập nhật vào cơ sở dữ liệu
+            int rowsAffected = pstm.executeUpdate();
+
+            // Kiểm tra xem cập nhật có thành công không
+            if (rowsAffected > 0) {
+                System.out.println("Cập nhật thành công.");
+            } else {
+                System.out.println("Cập nhật không thành công. Không có bản ghi nào được cập nhật.");
+            }
+
+        } catch (SQLException e) {
+            // Xử lý các lỗi SQL
+            e.printStackTrace();
         }
     }
 

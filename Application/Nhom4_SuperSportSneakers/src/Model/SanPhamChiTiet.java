@@ -25,14 +25,12 @@ public class SanPhamChiTiet {
     private KichThuoc idKichThuoc;
     private ThuongHieu idThuongHieu;
     private SanPham idSanPham;
-    
-    
-
+    private String qr;
 
     public SanPhamChiTiet() {
     }
-    
-     public SanPhamChiTiet(Long idSPCT, String maSPCT, int soLuong, Float giaBan, Float giaNiemYet, int TrangThai, String moTa, MauSac idMau, KichThuoc idKichThuoc, ThuongHieu idThuongHieu, SanPham idSanPham) {
+
+    public SanPhamChiTiet(Long idSPCT, String maSPCT, int soLuong, Float giaBan, Float giaNiemYet, int TrangThai, String moTa, MauSac idMau, KichThuoc idKichThuoc, ThuongHieu idThuongHieu, SanPham idSanPham) {
         this.idSPCT = idSPCT;
         this.maSPCT = maSPCT;
         this.soLuong = soLuong;
@@ -58,7 +56,6 @@ public class SanPhamChiTiet {
         this.idThuongHieu = idThuongHieu;
         this.idSanPham = idSanPham;
     }
-    
 
     public SanPhamChiTiet(Long idSPCT, DotGiamGia_M idDGG, String maSPCT, int soLuong, Float giaBan, Float giaNiemYet, SanPham idSanPham) {
         this.idSPCT = idSPCT;
@@ -69,7 +66,8 @@ public class SanPhamChiTiet {
         this.giaNiemYet = giaNiemYet;
         this.idSanPham = idSanPham;
     }
-     public SanPhamChiTiet(Long idSPCT, DotGiamGia_M idDGG, String maSPCT, Float giaBan, Float giaNiemYet, SanPham idSanPham) {
+
+    public SanPhamChiTiet(Long idSPCT, DotGiamGia_M idDGG, String maSPCT, Float giaBan, Float giaNiemYet, SanPham idSanPham) {
         this.idSPCT = idSPCT;
         this.idDGG = idDGG;
         this.maSPCT = maSPCT;
@@ -90,8 +88,6 @@ public class SanPhamChiTiet {
         this.idSanPham = idSanPham;
 
     }
-
- 
 
     public SanPhamChiTiet(Long idSPCT, DotGiamGia_M idDGG, String maSPCT, int soLuong, Float giaBan, Float giaNiemYet, MauSac idMau, KichThuoc idKichThuoc, ThuongHieu idThuongHieu, SanPham idSanPham) {
         this.idSPCT = idSPCT;
@@ -204,33 +200,33 @@ public class SanPhamChiTiet {
     }
 
     public Float tinhGiaBan() {
-        if(this.idDGG== null){
+        if (this.idDGG == null) {
             return giaBan;
         }
-        if (this.idDGG != null && idDGG.getTrangThai()==1) {
+        if (this.idDGG != null && idDGG.getTrangThai() == 1) {
 //            System.out.println("iDDGG KO NULL : ");
 //            if (idDGG.getTrangThai() == 1) {
 //                System.out.println("iDDGG TRANG THAI 1 : ");
-                Integer checkLoai = this.idDGG.getHinhThucDGG();
-                if (checkLoai==0) {
+            Integer checkLoai = this.idDGG.getHinhThucDGG();
+            if (checkLoai == 0) {
 //                    System.out.println("LOAI 0 % ");
 //                    System.out.println("Model.SanPhamChiTiet. GT 0 "+(idDGG.getGiaTri() / (float) 100));
 //                    System.out.println("Model.SanPhamChiTiet. GT 1 "+((idDGG.getGiaTri() / (float) 100) * giaNiemYet));
-                    giaBan = giaNiemYet - ((idDGG.getGiaTri() / (float) 100) * giaNiemYet);
-                    System.out.println("loai 0 ... %: " + giaBan);
-                    return giaBan;
-                } else if(checkLoai==1) {
-                    giaBan = giaNiemYet - idDGG.getGiaTri();
-//                    System.out.println("loai 1: VND" + giaBan);
-                    return giaBan;
-                }
+                giaBan = giaNiemYet - ((idDGG.getGiaTri() / (float) 100) * giaNiemYet);
+                System.out.println("loai 0 ... %: " + giaBan);
                 return giaBan;
+            } else if (checkLoai == 1) {
+                giaBan = giaNiemYet - idDGG.getGiaTri();
+//                    System.out.println("loai 1: VND" + giaBan);
+                return giaBan;
+            }
+            return giaBan;
 //            }
 //            System.out.println("KO VÀO TRANG THAI" + giaBan);
 //            return giaBan;
         } else {
             giaBan = giaNiemYet;
-    //        System.out.println("yet = ban");
+            //        System.out.println("yet = ban");
             return giaBan;
         }
     }
@@ -243,15 +239,17 @@ public class SanPhamChiTiet {
     }
 
     public int getLoaiDGG() {
-        if (null==idDGG.getHinhThucDGG()) {
+        if (null == idDGG.getHinhThucDGG()) {
             return 2;
-        } else switch (idDGG.getHinhThucDGG()) {
-            case 1:
-                return 1;
-            case 0:
-                return 0;
-            default:
-                return 2;
+        } else {
+            switch (idDGG.getHinhThucDGG()) {
+                case 1:
+                    return 1;
+                case 0:
+                    return 0;
+                default:
+                    return 2;
+            }
         }
     }
 
@@ -263,12 +261,20 @@ public class SanPhamChiTiet {
         }
     }
 
+    public String getQr() {
+        return qr;
+    }
+
+    public void setQr(String qr) {
+        this.qr = qr;
+    }
+
     public Float getGiaGiam() {
         return this.giaNiemYet - tinhGiaBan();
     }
 
     public Object[] rowDataSPBH() {
-        
+
         return new Object[]{
             maSPCT, idSanPham.getTenSanpham(), idMau.getTenMau(), idKichThuoc.getTenSize(), idThuongHieu.getTenThuongHieu(), soLuong, giaNiemYet
         };
@@ -276,7 +282,7 @@ public class SanPhamChiTiet {
 
     @Override
     public String toString() {
-        return "ChiTietSanPham_M{" + "idSPCT=" + idSPCT + ", idDGG=" + idDGG + ", maSPCT=" + maSPCT + ", soLuong=" + soLuong + ", giaBan=" + giaBan + ", giaNiemYet=" + giaNiemYet + ", TrangThai=" + TrangThai + ", moTa=" + moTa + ", idMau="/* + idMau.getIdMau() + ", idKichThuoc=" + idKichThuoc.getIdSize() + ", idThuongHieu=" + idThuongHieu.getIdThuongHieu() + ", idSanPham=" + idSanPham.getIdSanPham() + */+'}';
+        return "ChiTietSanPham_M{" + "idSPCT=" + idSPCT + ", idDGG=" + idDGG + ", maSPCT=" + maSPCT + ", soLuong=" + soLuong + ", giaBan=" + giaBan + ", giaNiemYet=" + giaNiemYet + ", TrangThai=" + TrangThai + ", moTa=" + moTa + ", idMau="/* + idMau.getIdMau() + ", idKichThuoc=" + idKichThuoc.getIdSize() + ", idThuongHieu=" + idThuongHieu.getIdThuongHieu() + ", idSanPham=" + idSanPham.getIdSanPham() + */ + '}';
     }
 
 }

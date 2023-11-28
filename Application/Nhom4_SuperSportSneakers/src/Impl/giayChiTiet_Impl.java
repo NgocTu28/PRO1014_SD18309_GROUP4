@@ -92,19 +92,6 @@ public class giayChiTiet_Impl {
             return "Không tìm thấy điện thoại";
         }
         DecimalFormat moneyFormat = new DecimalFormat("#,###");
-//        String data = "Mã điện thoại: " + ctdt.getMaDienThoai()
-//                + "\nIMEI: " + ctdt.getImei()
-//                + "\nTên điện thoại: " + ctdt.getDienThoai()
-//                + "\nHãng: " + ctdt.getHang()
-//                + "\nMàu sắc: " + ctdt.getMauSac()
-//                + "\nTình trạng: " + (ctdt.getTinhTrang() == 100 ? "Mới" : "Cũ - " + ctdt.getTinhTrang() + "%")
-//                + "\nĐơn giá: " + moneyFormat.format(ctdt.getDonGia()) + "VNĐ"
-//                + "\nRam: " + ctdt.getRam()
-//                + "\nBộ nhớ: " + ctdt.getBoNho()
-//                + "\nThời gian bảo hành: " + ctdt.getThoiGianBaoHanh() + " tháng"
-//                + "\nTrạng thái: " + (ctdt.getTrangThai() == 0 ? "Đang bán" : ctdt.getTrangThai() == 1 ? "Đã bán" : ctdt.getTrangThai() == 2 ? "Sản phẩm lỗi" : "")
-//                + (ctdt.getMoTa() == null ? "" : "\nMô tả: " + ctdt.getMoTa());
-
         String data = "Mã Giày Chi Tiết:" + spct.getMaSPCT()
                 + "\n Tên Giày:" + spct.getIdSanPham().getTenSanpham()
                 + "\n Tên Thương Hiệu:" + spct.getIdThuongHieu().getTenThuongHieu()
@@ -429,13 +416,16 @@ public class giayChiTiet_Impl {
                             } else if (nextCell.getCellType() == CellType.STRING) {
                                 maSPCT += nextCell.getStringCellValue();
                             }
-                            maSPCT = maSPCT.trim();
-
-                            // Case type excel
-                            if (maSPCT.isEmpty()) {
-                                return "Số lượng bỏ trống tại hàng " + (nextCell.getRowIndex() + 1);
+                            String id = sanPhamChiTiet_Repo.getMaSanPhamChiTietByMa(maSPCT);
+                            if (maSPCT.equalsIgnoreCase(id)) {
+                                return "Mã sản phẩm đã tồn tại" + (nextCell.getRowIndex() + 1);
+                            } else {
+                                if (maSPCT.isEmpty()) {
+                                    return "Mã sản phẩm chi tiết bỏ trống tại hàng " + (nextCell.getRowIndex() + 1);
+                                }
+                                spct.setMaSPCT(maSPCT);
                             }
-                            spct.setMaSPCT(maSPCT);
+                            // Case type excel
                             break;
                         case 5:
                             String soLuongTon = "";

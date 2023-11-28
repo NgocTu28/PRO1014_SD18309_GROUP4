@@ -10,13 +10,17 @@ import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.LayoutManager;
 import javax.swing.JOptionPane;
-import raven.application.Application;   
+import raven.application.Application;
+import raven.toast.Notifications;
+
 /**
  *
  * @author Raven
  */
 public class LoginForm extends javax.swing.JPanel {
-    private  NhanVienRepository nhanVienRepository = new NhanVienRepository();
+
+    private NhanVienRepository nhanVienRepository = new NhanVienRepository();
+
     public LoginForm() {
         initComponents();
         init();
@@ -138,17 +142,18 @@ public class LoginForm extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cmdLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdLoginActionPerformed
-        if(txtUser.getText().isEmpty() || txtPass.getPassword().length == 0){
-            JOptionPane.showMessageDialog(this, "Bạn đã để trống, vui lòng thử lại.", "Login Failed", JOptionPane.ERROR);
-        }else {
-            NhanVien nv = nhanVienRepository.findNhanVien(txtUser.getText(), txtPass.getText());
-            if(nv == null){
-                JOptionPane.showMessageDialog(this, "Login Failed!", "Thông Báo", JOptionPane.ERROR);
-            }else if(nv != null){
-                 JOptionPane.showMessageDialog(this, "Login Successfull!", "Thông Báo", JOptionPane.INFORMATION_MESSAGE);
-                Application.login();
-            }
-        }
+//        if (txtUser.getText().isEmpty() || txtPass.getPassword().length == 0) {
+//            Notifications.getInstance().show(Notifications.Type.INFO, Notifications.Location.TOP_CENTER, "Bạn đã bỏ trống Tài Khoản hoặc Mật Khẩu.");
+//        } else {
+//            NhanVien nv = nhanVienRepository.findNhanVien(txtUser.getText(), txtPass.getText());
+//            if (nv == null) {
+//                Notifications.getInstance().show(Notifications.Type.INFO, Notifications.Location.TOP_CENTER, "Login Faild.");
+//            } else if (nv != null) {
+//                Notifications.getInstance().show(Notifications.Type.INFO, Notifications.Location.TOP_CENTER, "Login Successfull.");
+//                Application.login();
+//            }
+//        }
+        Application.login();
     }//GEN-LAST:event_cmdLoginActionPerformed
 
     private class LoginFormLayout implements LayoutManager {
