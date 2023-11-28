@@ -110,6 +110,9 @@ public class giayChiTiet_Impl {
 
             // Write to file image
             Path path = FileSystems.getDefault().getPath(pathFolder + "\\" + spct.getMaSPCT() + "-" + spct.getIdSanPham().getTenSanpham() + ".png");
+            String file1 = path.toString();
+            System.out.println(file1 + " " + ma);
+            sanPhamChiTiet_Repo.updateQR(file1, ma);
             BufferedImage qrImage = MatrixToImageWriter.toBufferedImage(matrix);
             MatrixToImageWriter.writeToPath(matrix, "PNG", path);
         } catch (Exception ex) {

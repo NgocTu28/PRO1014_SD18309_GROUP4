@@ -1156,11 +1156,7 @@ public class Form_SanPhamChiTiet extends javax.swing.JPanel {
             } else {
                 JOptionPane.showMessageDialog(this, mess);
             }
-//            String qrFileName = chiTiet_Impl.exportQr(path, spct.getMaSPCT());
-//            spct.setQr(qrFileName);
-//            sanPhamCT_Repository.updateSPCT(spct, txt_MaSPCT.getText());
         } else {
-            // Xử lý trường hợp chiTiet_Impl là null, có thể hiển thị một thông báo hoặc xử lý khác
             System.out.println("Lỗi: chiTiet_Impl không được khởi tạo.");
         }
         if (mess.equals("Tải thành công")) {

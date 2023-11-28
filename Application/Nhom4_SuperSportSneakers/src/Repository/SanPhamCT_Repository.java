@@ -571,26 +571,37 @@ public class SanPhamCT_Repository {
         }
     }
 
-    public void updateQR(String qr, String ma) {
-        String query = "UPDATE CHI_TIET_SAN_PHAM SET QR = ? WHERE MaCTSP = ?";
+//    public void updateQR(String qr, String ma) {
+//        String query = "UPDATE CHI_TIET_SAN_PHAM SET QR = ? WHERE MaCTSP = ?";
+//        try {
+//            // Thiết lập giá trị cho các tham số trong câu lệnh SQL
+//            pstm.setString(1, qr);
+//            pstm.setString(2, ma);
+//
+//            // Thực hiện cập nhật vào cơ sở dữ liệu
+//            int rowsAffected = pstm.executeUpdate();
+//
+//            // Kiểm tra xem cập nhật có thành công không
+//            if (rowsAffected > 0) {
+//                System.out.println("Cập nhật thành công.");
+//            } else {
+//                System.out.println("Cập nhật không thành công. Không có bản ghi nào được cập nhật.");
+//            }
+//
+//        } catch (SQLException e) {
+//            // Xử lý các lỗi SQL
+//            e.printStackTrace();
+//        }
+//    }
+    public void updateQR(String QR, String maCTSP) {
+        String query = " UPDATE CHI_TIET_SAN_PHAM  set QR = '" + QR + "' WHERE MaCTSP = ?";
         try {
-            // Thiết lập giá trị cho các tham số trong câu lệnh SQL
-            pstm.setString(1, qr);
-            pstm.setString(2, ma);
+            PreparedStatement pstm = connect.prepareCall(query);
+            pstm.setString(1, maCTSP);
 
-            // Thực hiện cập nhật vào cơ sở dữ liệu
-            int rowsAffected = pstm.executeUpdate();
-
-            // Kiểm tra xem cập nhật có thành công không
-            if (rowsAffected > 0) {
-                System.out.println("Cập nhật thành công.");
-            } else {
-                System.out.println("Cập nhật không thành công. Không có bản ghi nào được cập nhật.");
-            }
-
-        } catch (SQLException e) {
-            // Xử lý các lỗi SQL
-            e.printStackTrace();
+            pstm.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
         }
     }
 
