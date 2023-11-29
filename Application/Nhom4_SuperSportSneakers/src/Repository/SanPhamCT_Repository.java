@@ -52,7 +52,7 @@ public class SanPhamCT_Repository {
                 ThuongHieu thuongHieu = new ThuongHieu(rs.getString("TenThuongHieu"));
                 KichThuoc kichThuoc = new KichThuoc(rs.getFloat("TenSize"));
 
-                SanPhamChiTiet sanPhamChiTiet = new SanPhamChiTiet(rs.getLong("ID"), rs.getString("MaCTSP"), rs.getInt("SoLuongTon"), rs.getFloat("GiaBan"), rs.getFloat("GiaNiemYet"), rs.getInt("TrangThai"), rs.getString("MoTa"), mauSac, kichThuoc, thuongHieu, sanPham);
+                SanPhamChiTiet sanPhamChiTiet = new SanPhamChiTiet(rs.getLong("ID"), rs.getString("MaCTSP"), rs.getInt("SoLuongTon"), rs.getBigDecimal("GiaBan"), rs.getBigDecimal("GiaNiemYet"), rs.getInt("TrangThai"), rs.getString("MoTa"), mauSac, kichThuoc, thuongHieu, sanPham);
                 list.add(sanPhamChiTiet);
             }
         } catch (Exception e) {
@@ -98,7 +98,7 @@ public class SanPhamCT_Repository {
                     MauSac mauSac = new MauSac(rs.getString("TenMau"));
                     ThuongHieu thuongHieu = new ThuongHieu(rs.getString("TenThuongHieu"));
                     KichThuoc kichThuoc = new KichThuoc(rs.getFloat("TenSize"));
-                    SanPhamChiTiet sanPhamChiTiet = new SanPhamChiTiet(rs.getLong("ID"), rs.getString("MaCTSP"), rs.getInt("SoLuongTon"), rs.getFloat("GiaBan"), rs.getFloat("GiaNiemYet"), rs.getInt("TrangThai"), rs.getString("MoTa"), mauSac, kichThuoc, thuongHieu, sanPham);
+                    SanPhamChiTiet sanPhamChiTiet = new SanPhamChiTiet(rs.getLong("ID"), rs.getString("MaCTSP"), rs.getInt("SoLuongTon"), rs.getBigDecimal("GiaBan"), rs.getBigDecimal("GiaNiemYet"), rs.getInt("TrangThai"), rs.getString("MoTa"), mauSac, kichThuoc, thuongHieu, sanPham);
                     list.add(sanPhamChiTiet);
                 }
             } catch (Exception e) {
@@ -129,7 +129,7 @@ public class SanPhamCT_Repository {
                 ThuongHieu thuongHieu = new ThuongHieu(rs.getString("TenThuongHieu"));
                 KichThuoc kichThuoc = new KichThuoc(rs.getFloat("TenSize"));
 
-                SanPhamChiTiet sanPhamChiTiet = new SanPhamChiTiet(rs.getLong("ID"), rs.getString("MaCTSP"), rs.getInt("SoLuongTon"), rs.getFloat("GiaBan"), rs.getFloat("GiaNiemYet"), rs.getInt("TrangThai"), rs.getString("MoTa"), mauSac, kichThuoc, thuongHieu, sanPham);
+                SanPhamChiTiet sanPhamChiTiet = new SanPhamChiTiet(rs.getLong("ID"), rs.getString("MaCTSP"), rs.getInt("SoLuongTon"), rs.getBigDecimal("GiaBan"), rs.getBigDecimal("GiaNiemYet"), rs.getInt("TrangThai"), rs.getString("MoTa"), mauSac, kichThuoc, thuongHieu, sanPham);
                 listSearch.add(sanPhamChiTiet);
             }
         } catch (Exception e) {
@@ -156,7 +156,7 @@ public class SanPhamCT_Repository {
                 ThuongHieu thuongHieu = new ThuongHieu(rs.getString("TenThuongHieu"));
                 KichThuoc kichThuoc = new KichThuoc(rs.getFloat("TenSize"));
 
-                SanPhamChiTiet sanPhamChiTiet = new SanPhamChiTiet(rs.getLong("ID"), rs.getString("MaCTSP"), rs.getInt("SoLuongTon"), rs.getFloat("GiaBan"), rs.getFloat("GiaNiemYet"), rs.getInt("TrangThai"), rs.getString("MoTa"), mauSac, kichThuoc, thuongHieu, sanPham);
+                SanPhamChiTiet sanPhamChiTiet = new SanPhamChiTiet(rs.getLong("ID"), rs.getString("MaCTSP"), rs.getInt("SoLuongTon"), rs.getBigDecimal("GiaBan"), rs.getBigDecimal("GiaNiemYet"), rs.getInt("TrangThai"), rs.getString("MoTa"), mauSac, kichThuoc, thuongHieu, sanPham);
                 listSearch.add(sanPhamChiTiet);
             }
         } catch (Exception e) {
@@ -183,7 +183,7 @@ public class SanPhamCT_Repository {
                 ThuongHieu thuongHieu = new ThuongHieu(rs.getString("TenThuongHieu"));
                 KichThuoc kichThuoc = new KichThuoc(rs.getFloat("TenSize"));
 
-                SanPhamChiTiet sanPhamChiTiet = new SanPhamChiTiet(rs.getLong("ID"), rs.getString("MaCTSP"), rs.getInt("SoLuongTon"), rs.getFloat("GiaBan"), rs.getFloat("GiaNiemYet"), rs.getInt("TrangThai"), rs.getString("MoTa"), mauSac, kichThuoc, thuongHieu, sanPham);
+                SanPhamChiTiet sanPhamChiTiet = new SanPhamChiTiet(rs.getLong("ID"), rs.getString("MaCTSP"), rs.getInt("SoLuongTon"), rs.getBigDecimal("GiaBan"), rs.getBigDecimal("GiaNiemYet"), rs.getInt("TrangThai"), rs.getString("MoTa"), mauSac, kichThuoc, thuongHieu, sanPham);
                 listSearch.add(sanPhamChiTiet);
             }
         } catch (Exception e) {
@@ -210,7 +210,7 @@ public class SanPhamCT_Repository {
                 ThuongHieu thuongHieu = new ThuongHieu(rs.getString("TenThuongHieu"));
                 KichThuoc kichThuoc = new KichThuoc(rs.getFloat("TenSize"));
 
-                SanPhamChiTiet sanPhamChiTiet = new SanPhamChiTiet(rs.getLong("ID"), rs.getString("MaCTSP"), rs.getInt("SoLuongTon"), rs.getFloat("GiaBan"), rs.getFloat("GiaNiemYet"), rs.getInt("TrangThai"), rs.getString("MoTa"), mauSac, kichThuoc, thuongHieu, sanPham);
+                SanPhamChiTiet sanPhamChiTiet = new SanPhamChiTiet(rs.getLong("ID"), rs.getString("MaCTSP"), rs.getInt("SoLuongTon"), rs.getBigDecimal("GiaBan"), rs.getBigDecimal("GiaNiemYet"), rs.getInt("TrangThai"), rs.getString("MoTa"), mauSac, kichThuoc, thuongHieu, sanPham);
                 listSearch.add(sanPhamChiTiet);
             }
         } catch (Exception e) {
@@ -240,7 +240,7 @@ public class SanPhamCT_Repository {
                 MauSac mauSac = new MauSac(rs.getString("TenMau"));
                 ThuongHieu thuongHieu = new ThuongHieu(rs.getString("TenThuongHieu"));
                 KichThuoc kichThuoc = new KichThuoc(rs.getFloat("TenSize"));
-                SanPhamChiTiet sanPhamChiTiet = new SanPhamChiTiet(rs.getLong("ID"), rs.getString("MaCTSP"), rs.getInt("SoLuongTon"), rs.getFloat("GiaBan"), rs.getFloat("GiaNiemYet"), rs.getInt("TrangThai"), rs.getString("MoTa"), mauSac, kichThuoc, thuongHieu, sanPham);
+                SanPhamChiTiet sanPhamChiTiet = new SanPhamChiTiet(rs.getLong("ID"), rs.getString("MaCTSP"), rs.getInt("SoLuongTon"), rs.getBigDecimal("GiaBan"), rs.getBigDecimal("GiaNiemYet"), rs.getInt("TrangThai"), rs.getString("MoTa"), mauSac, kichThuoc, thuongHieu, sanPham);
                 list.add(sanPhamChiTiet);
             }
         } catch (Exception e) {
@@ -259,8 +259,8 @@ public class SanPhamCT_Repository {
             pstm.setLong(4, spct.getIdKichThuoc().getIdSize());
             pstm.setString(5, spct.getMaSPCT());
             pstm.setInt(6, spct.getSoLuong());
-            pstm.setFloat(7, spct.getGiaNiemYet());
-            pstm.setFloat(8, spct.getGiaBan());
+            pstm.setBigDecimal(7, spct.getGiaNiemYet());
+            pstm.setBigDecimal(8, spct.getGiaBan());
             pstm.setString(9, spct.getMoTa());
             pstm.setInt(10, spct.getTrangThai());
 
@@ -304,8 +304,8 @@ public class SanPhamCT_Repository {
             PreparedStatement pstm = connect.prepareCall(query);
 
             pstm.setInt(1, spct.getSoLuong());
-            pstm.setFloat(2, spct.getGiaNiemYet());
-            pstm.setFloat(3, spct.getGiaBan());
+            pstm.setBigDecimal(2, spct.getGiaNiemYet());
+            pstm.setBigDecimal(3, spct.getGiaBan());
             pstm.setString(4, spct.getMoTa());
             pstm.setInt(5, spct.getTrangThai());
             pstm.setString(6, maCTSP);
@@ -359,7 +359,7 @@ public class SanPhamCT_Repository {
                 ThuongHieu thuongHieu = new ThuongHieu(rs.getString("TenThuongHieu"));
                 KichThuoc kichThuoc = new KichThuoc(rs.getFloat("TenSize"));
 
-                result = new SanPhamChiTiet(rs.getLong("ID"), rs.getString("MaCTSP"), rs.getInt("SoLuongTon"), rs.getFloat("GiaBan"), rs.getFloat("GiaNiemYet"), rs.getInt("TrangThai"), rs.getString("MoTa"), mauSac, kichThuoc, thuongHieu, sanPham);
+                result = new SanPhamChiTiet(rs.getLong("ID"), rs.getString("MaCTSP"), rs.getInt("SoLuongTon"), rs.getBigDecimal("GiaBan"), rs.getBigDecimal("GiaNiemYet"), rs.getInt("TrangThai"), rs.getString("MoTa"), mauSac, kichThuoc, thuongHieu, sanPham);
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -395,7 +395,7 @@ public class SanPhamCT_Repository {
                         rs.getLong("IdDGG"),
                         rs.getString("MaDGG"),
                         rs.getInt("LoaiDGG"),
-                        rs.getFloat("GiaTriDGG"),
+                        rs.getBigDecimal("GiaTriDGG"),
                         rs.getInt("TrangThaiDGG"));
 
                 SanPham sp = new SanPham(rs.getLong("IdSP"), rs.getString("TenSP"));
@@ -403,7 +403,7 @@ public class SanPhamCT_Repository {
                 MauSac mau = new MauSac(rs.getLong("IdM"), rs.getString("TenMau"));
                 ThuongHieu th = new ThuongHieu(rs.getLong("IdTH"), rs.getString("TenThuongHieu"));
                 SanPhamChiTiet ctspm = new SanPhamChiTiet(rs.getLong("ID"), rs.getString("MaCTSP"),
-                        rs.getInt("SoLuongTon"), rs.getFloat("GiaBan"), rs.getFloat("GiaNiemYet"),
+                        rs.getInt("SoLuongTon"), rs.getBigDecimal("GiaBan"), rs.getBigDecimal("GiaNiemYet"),
                         mau, kt, th, sp);
                 list.add(ctspm);
             }
@@ -488,7 +488,7 @@ public class SanPhamCT_Repository {
                         rs.getLong("IdDGG"),
                         rs.getString("MaDGG"),
                         rs.getInt("LoaiDGG"),
-                        rs.getFloat("GiaTriDGG"),
+                        rs.getBigDecimal("GiaTriDGG"),
                         rs.getInt("TrangThaiDGG"));
 
                 SanPham sp = new SanPham(rs.getLong("IdSP"), rs.getString("TenSP"));
@@ -496,7 +496,7 @@ public class SanPhamCT_Repository {
                 MauSac mau = new MauSac(rs.getLong("IdM"), rs.getString("TenMau"));
                 ThuongHieu th = new ThuongHieu(rs.getLong("IdTH"), rs.getString("TenThuongHieu"));
                 SanPhamChiTiet ctspm = new SanPhamChiTiet(rs.getLong("ID"), rs.getString("MaCTSP"),
-                        rs.getInt("SoLuongTon"), rs.getFloat("GiaBan"), rs.getFloat("GiaNiemYet"),
+                        rs.getInt("SoLuongTon"), rs.getBigDecimal("GiaBan"), rs.getBigDecimal("GiaNiemYet"),
                         mau, kt, th, sp);
                 System.out.println(ctspm.toString());
                 return ctspm;
@@ -583,18 +583,4 @@ public class SanPhamCT_Repository {
         }
     }
 
-    public String searchQRInDB(String maCTSP) {
-        String query = "SELECT QR FROM CHI_TIET_SAN_PHAM WHERE MaCTSP = ?";
-        String qr = null;
-        try {
-            pstm = con.prepareStatement(query);
-            rs = pstm.executeQuery();
-            if (rs.next()) {
-                qr = rs.getString("QR");
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(ChiTietHoaDon_RepositoryM.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return qr;
-    }
 }

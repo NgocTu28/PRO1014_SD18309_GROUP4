@@ -28,6 +28,7 @@ import raven.application.form.other.Form_KhachHang;
 import raven.application.form.other.Form_NhanVien_SanPham;
 import raven.application.form.other.Form_PhieuGiamGia;
 import raven.application.form.other.Form_PhieuGiaoHang;
+import raven.application.form.other.Form_SPCT;
 import raven.application.form.other.Form_SanPhamChiTiet;
 import raven.menu.Menu;
 import raven.menu.MenuAction;
@@ -86,7 +87,7 @@ public class MainForm extends JLayeredPane {
             // Application.mainForm.showForm(new DefaultForm("Form : " + index + " " + subIndex));
             if (nv.isVaitro() == false) {
                 if (index == 0) {
-                    Application.showForm(new Form_BanHang());
+                    Application.showForm(new Form_SPCT());
                 } else if (index == 1) {
 //                Application.showForm(new Form_BanHang());
                     Application.showForm(new Form_SanPham());

@@ -10,15 +10,14 @@ import java.util.Collections;
 
 public class PhieuGiamGia {
 
-    
     private NhanVien idNV;
     private long idPGG;
     private String maPhieu;
     private String tenPhieu;
     private int loaiPhieu;
-    private float giaTri;
+    private BigDecimal giaTri;
     private int soLuongPhieu;
-    private Float donToiThieu;
+    private BigDecimal donToiThieu;
     private Date ngayBatDau;
     private Date ngayKetThuc;
     private Date ngayTao;
@@ -28,7 +27,7 @@ public class PhieuGiamGia {
     public PhieuGiamGia() {
     }
 
-    public PhieuGiamGia(NhanVien idNV, String maPhieu, String tenPhieu, int loaiPhieu, float giaTri, int soLuongPhieu, Float donToiThieu, Date ngayBatDau, Date ngayKetThuc, String moTa, int trangThai) {
+    public PhieuGiamGia(NhanVien idNV, String maPhieu, String tenPhieu, int loaiPhieu, BigDecimal giaTri, int soLuongPhieu, BigDecimal donToiThieu, Date ngayBatDau, Date ngayKetThuc, String moTa, int trangThai) {
         this.idNV = idNV;
         this.maPhieu = maPhieu;
         this.tenPhieu = tenPhieu;
@@ -42,7 +41,7 @@ public class PhieuGiamGia {
         this.trangThai = trangThai;
     }
 
-    public PhieuGiamGia(NhanVien idNV, long idPGG, String maPhieu, String tenPhieu, int loaiPhieu, float giaTri, int soLuongPhieu, Float donToiThieu, Date ngayBatDau, Date ngayKetThuc, Date ngayTao, String moTa, int trangThai) {
+    public PhieuGiamGia(NhanVien idNV, long idPGG, String maPhieu, String tenPhieu, int loaiPhieu, BigDecimal giaTri, int soLuongPhieu, BigDecimal donToiThieu, Date ngayBatDau, Date ngayKetThuc, Date ngayTao, String moTa, int trangThai) {
         this.idNV = idNV;
         this.idPGG = idPGG;
         this.maPhieu = maPhieu;
@@ -65,8 +64,6 @@ public class PhieuGiamGia {
     public void setIdNV(NhanVien idNV) {
         this.idNV = idNV;
     }
-
-   
 
     public long getIdPGG() {
         return idPGG;
@@ -100,11 +97,11 @@ public class PhieuGiamGia {
         this.loaiPhieu = loaiPhieu;
     }
 
-    public float getGiaTri() {
+    public BigDecimal getGiaTri() {
         return giaTri;
     }
 
-    public void setGiaTri(float giaTri) {
+    public void setGiaTri(BigDecimal giaTri) {
         this.giaTri = giaTri;
     }
 
@@ -116,11 +113,11 @@ public class PhieuGiamGia {
         this.soLuongPhieu = soLuongPhieu;
     }
 
-    public Float getDonToiThieu() {
+    public BigDecimal getDonToiThieu() {
         return donToiThieu;
     }
 
-    public void setDonToiThieu(Float donToiThieu) {
+    public void setDonToiThieu(BigDecimal donToiThieu) {
         this.donToiThieu = donToiThieu;
     }
 
@@ -183,10 +180,10 @@ public class PhieuGiamGia {
         return nv;
     }
 
-    public Object[] rowDate(int i){
+    public Object[] rowDate(int i) {
         return new Object[]{
-            i , idNV.getTenNhanVien() , maPhieu , tenPhieu , loaiPhieu == 0 ? "%" :"VND",
-            giaTri , soLuongPhieu, donToiThieu , ngayBatDau , ngayKetThuc , ngayTao, moTa , getTrangThaiString()
+            i, idNV.getTenNhanVien(), maPhieu, tenPhieu, loaiPhieu == 0 ? "%" : "VND",
+            giaTri, soLuongPhieu, donToiThieu, ngayBatDau, ngayKetThuc, ngayTao, moTa, getTrangThaiString()
         };
     }
 
@@ -194,6 +191,4 @@ public class PhieuGiamGia {
     public String toString() {
         return "PhieuGiamGia{" + "idNV=" + idNV + ", idPGG=" + idPGG + ", maPhieu=" + maPhieu + ", tenPhieu=" + tenPhieu + ", loaiPhieu=" + loaiPhieu + ", giaTri=" + giaTri + ", soLuongPhieu=" + soLuongPhieu + ", donToiThieu=" + donToiThieu + ", ngayBatDau=" + ngayBatDau + ", ngayKetThuc=" + ngayKetThuc + ", ngayTao=" + ngayTao + ", moTa=" + moTa + ", trangThai=" + trangThai + '}';
     }
-    
-    
 }

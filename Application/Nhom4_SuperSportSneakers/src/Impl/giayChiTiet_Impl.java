@@ -592,7 +592,7 @@ public class giayChiTiet_Impl {
                 ThuongHieu thuongHieu = new ThuongHieu(rs.getString("TenThuongHieu"));
                 KichThuoc kichThuoc = new KichThuoc(rs.getFloat("TenSize"));
 
-                SanPhamChiTiet sanPhamChiTiet = new SanPhamChiTiet(rs.getLong("ID"), rs.getString("MaCTSP"), rs.getInt("SoLuongTon"), rs.getFloat("GiaBan"), rs.getFloat("GiaNiemYet"), rs.getInt("TrangThai"), rs.getString("MoTa"), mauSac, kichThuoc, thuongHieu, sanPham);
+                SanPhamChiTiet sanPhamChiTiet = new SanPhamChiTiet(rs.getLong("ID"), rs.getString("MaCTSP"), rs.getInt("SoLuongTon"), rs.getBigDecimal("GiaBan"), rs.getBigDecimal("GiaNiemYet"), rs.getInt("TrangThai"), rs.getString("MoTa"), mauSac, kichThuoc, thuongHieu, sanPham);
                 list.add(sanPhamChiTiet);
             }
         } catch (Exception e) {

@@ -25,13 +25,13 @@ import java.util.logging.Logger;
  * @author Admin
  */
 public class PhieuGiamGiaService {
-    
+
     private String query = null;
     private Statement stm = null;
     private PreparedStatement pstm = null;
     private ResultSet rs = null;
     private Connection con = null;
-    
+
     public ArrayList<PhieuGiamGia> getAllPGG(int page, int limt) {
         ArrayList<PhieuGiamGia> listPGG = new ArrayList<>();
         Connection conn = DBConnection.getConnect();
@@ -40,7 +40,7 @@ public class PhieuGiamGiaService {
                 + "NgayBatDau , NgayKetThuc ,  PGG.NgayTao , MoTa , PGG.TrangThai FROM PHIEU_GIAM_GIA AS PGG\n"
                 + "JOIN NHANVIEN AS NV ON NV.ID = PGG.IdNV"
                 + "	order by ID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";;
-        
+
         try {
             pstm = conn.prepareStatement(sql);
             pstm.setInt(1, (page - 1) * limt);
@@ -55,15 +55,15 @@ public class PhieuGiamGiaService {
                 pgg.setMaPhieu(rs.getString("MaPhieu"));
                 pgg.setTenPhieu(rs.getString("TenPhieu"));
                 pgg.setLoaiPhieu(rs.getInt(("LoaiPhieu")));
-                pgg.setGiaTri(rs.getFloat("GiaTri"));
+                pgg.setGiaTri(rs.getBigDecimal("GiaTri"));
                 pgg.setSoLuongPhieu(rs.getInt("SoLuongPhieu"));
-                pgg.setDonToiThieu(rs.getFloat("DonToiThieu"));
+                pgg.setDonToiThieu(rs.getBigDecimal("DonToiThieu"));
                 pgg.setNgayBatDau(rs.getDate("NgayBatDau"));
                 pgg.setNgayKetThuc(rs.getDate("NgayKetThuc"));
                 pgg.setNgayTao(rs.getDate("NgayTao"));
                 pgg.setMoTa(rs.getString("MoTa"));
                 pgg.setTrangThai(rs.getInt("TrangThai"));
-                
+
                 listPGG.add(pgg);
             }
         } catch (Exception e) {
@@ -71,22 +71,22 @@ public class PhieuGiamGiaService {
         }
         return listPGG;
     }
-    
+
     public ArrayList<PhieuGiamGia> getLoc(Date NgayBatDau, Date NgayKetThuc, int LoaiPhieu, int TrangThai) {
         ArrayList<PhieuGiamGia> listPGG = new ArrayList<>();
         Connection conn = DBConnection.getConnect();
         System.out.println(TrangThai);
-        
+
         try {
             String sql = "Select IdNV, MaPhieu, TenPhieu, LoaiPhieu, GiaTri, SoLuongPhieu, DonToiThieu, NgayBatDau, NgayKetThuc,NgayTao, MoTa, TrangThai from PHIEU_GIAM_GIA ";
             ArrayList<String> whereQueries = new ArrayList<>();
             String NgayBatDauStr = null, NgayKetThucStr = null;
-            
+
             if (NgayBatDau != null && NgayKetThuc != null) {
                 SimpleDateFormat spd = new SimpleDateFormat("yyyy-MM-dd");
                 NgayBatDauStr = spd.format(NgayBatDau);
                 NgayKetThucStr = spd.format(NgayKetThuc);
-                
+
                 whereQueries.add("NgayBatDau >= ? AND NgayKetThuc <= ?");
             }
             whereQueries.add("LoaiPhieu = ?");
@@ -102,9 +102,9 @@ public class PhieuGiamGiaService {
                 }
             }
             System.out.println(whereQuery);
-            
+
             sql += "WHERE " + whereQuery;
-            
+
             PreparedStatement pr = conn.prepareStatement(sql);
             if (NgayBatDau != null && NgayKetThuc != null) {
                 pr.setObject(1, NgayBatDauStr);
@@ -134,15 +134,15 @@ public class PhieuGiamGiaService {
                 pgg.setMaPhieu(rs.getString(2));
                 pgg.setTenPhieu(rs.getString(3));
                 pgg.setLoaiPhieu(rs.getInt(4));
-                pgg.setGiaTri(rs.getFloat(5));
+                pgg.setGiaTri(rs.getBigDecimal(5));
                 pgg.setSoLuongPhieu(rs.getInt(6));
-                pgg.setDonToiThieu(rs.getFloat(7));
+                pgg.setDonToiThieu(rs.getBigDecimal(7));
                 pgg.setNgayBatDau(rs.getDate(8));
                 pgg.setNgayKetThuc(rs.getDate(9));
                 pgg.setNgayTao(rs.getDate(10));
                 pgg.setMoTa(rs.getString(11));
                 pgg.setTrangThai(rs.getInt(12));
-                
+
                 listPGG.add(pgg);
             }
         } catch (Exception e) {
@@ -150,7 +150,7 @@ public class PhieuGiamGiaService {
         }
         return listPGG;
     }
-    
+
     public List<PhieuGiamGia> getListLoc(PhieuGiamGia giamGia, int page, int limt) {
         List<PhieuGiamGia> list = new ArrayList<>();
         query = "SELECT PGG.ID , nv.ID AS IDNV , NV.HoVaTen , MaPhieu , TenPhieu , LoaiPhieu , GiaTri , \n"
@@ -160,7 +160,7 @@ public class PhieuGiamGiaService {
         String wheres = "";
         con = DBConnection.getConnect();
         try {
-            
+
             if (giamGia.getNgayBatDau() == null && giamGia.getNgayKetThuc() == null && giamGia.getLoaiPhieu() == -1 && giamGia.getTrangThai() == -1) {
                 query += "order by ID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
                 System.out.println(query);
@@ -177,9 +177,9 @@ public class PhieuGiamGiaService {
                     pgg.setMaPhieu(rs.getString("MaPhieu"));
                     pgg.setTenPhieu(rs.getString("TenPhieu"));
                     pgg.setLoaiPhieu(rs.getInt(("LoaiPhieu")));
-                    pgg.setGiaTri(rs.getFloat("GiaTri"));
+                    pgg.setGiaTri(rs.getBigDecimal("GiaTri"));
                     pgg.setSoLuongPhieu(rs.getInt("SoLuongPhieu"));
-                    pgg.setDonToiThieu(rs.getFloat("DonToiThieu"));
+                    pgg.setDonToiThieu(rs.getBigDecimal("DonToiThieu"));
                     pgg.setNgayBatDau(rs.getDate("NgayBatDau"));
                     pgg.setNgayKetThuc(rs.getDate("NgayKetThuc"));
                     pgg.setNgayTao(rs.getDate("NgayTao"));
@@ -207,41 +207,70 @@ public class PhieuGiamGiaService {
                 }
                 count++;
             }
-            
+
             query += "WHERE " + wheres + " order by ID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
             System.out.println(query);
             pstm = con.prepareStatement(query);
+            if (giamGia.getNgayBatDau() == null && giamGia.getNgayKetThuc() == null && giamGia.getLoaiPhieu() == -1 && (giamGia.getTrangThai() != -1)) {
+                System.out.println("Repository.PhieuGiamGiaService.getListLoc()" + 6);
+                pstm.setInt(1, giamGia.getTrangThai());
+                pstm.setInt(2, (page - 1) * limt);
+                pstm.setInt(3, limt);
+            }
+
+            if (giamGia.getNgayBatDau() == null && giamGia.getNgayKetThuc() == null && giamGia.getLoaiPhieu() != -1 && giamGia.getTrangThai() == -1) {
+                System.out.println("Repository.PhieuGiamGiaService.getListLoc()" + 7);
+                pstm.setInt(1, giamGia.getLoaiPhieu());
+                pstm.setInt(2, (page - 1) * limt);
+                pstm.setInt(3, limt);
+            }
+
+            if (giamGia.getNgayBatDau() == null && giamGia.getNgayKetThuc() == null && giamGia.getLoaiPhieu() != -1 && giamGia.getTrangThai() != -1) {
+                System.out.println("Repository.PhieuGiamGiaService.getListLoc()" + 8);
+                pstm.setInt(1, giamGia.getLoaiPhieu());
+                pstm.setInt(2, giamGia.getLoaiPhieu());
+                pstm.setInt(3, (page - 1) * limt);
+                pstm.setInt(4, limt);
+            }
+
             if (giamGia.getNgayBatDau() != null && giamGia.getNgayKetThuc() != null && giamGia.getLoaiPhieu() != -1 && (giamGia.getTrangThai() != -1)) {
+                System.out.println("Repository.PhieuGiamGiaService.getListLoc()" + 1);
                 pstm.setString(1, XDate.toString(giamGia.getNgayBatDau(), "MM-dd-yyyy"));
                 pstm.setString(2, XDate.toString(giamGia.getNgayKetThuc(), "MM-dd-yyyy"));
                 pstm.setInt(3, giamGia.getLoaiPhieu());
                 pstm.setInt(4, giamGia.getTrangThai());
                 pstm.setInt(5, (page - 1) * limt);
                 pstm.setInt(6, limt);
+
             }
-            if (giamGia.getNgayBatDau() != null && giamGia.getNgayKetThuc() != null && giamGia.getLoaiPhieu() != -1) {
-                
+            if (giamGia.getNgayBatDau() != null && giamGia.getNgayKetThuc() != null && giamGia.getLoaiPhieu() != -1 && giamGia.getTrangThai() == -1) {
+                System.out.println("Repository.PhieuGiamGiaService.getListLoc()" + 2);
                 pstm.setString(1, XDate.toString(giamGia.getNgayBatDau(), "MM-dd-yyyy"));
                 pstm.setString(2, XDate.toString(giamGia.getNgayKetThuc(), "MM-dd-yyyy"));
                 pstm.setInt(3, giamGia.getLoaiPhieu());
                 pstm.setInt(4, (page - 1) * limt);
                 pstm.setInt(5, limt);
+                System.out.println("Repository.PhieuGiamGiaService.getListLoc()" + 2);
             }
-            if (giamGia.getNgayBatDau() != null && giamGia.getNgayKetThuc() != null && giamGia.getTrangThai() != -1) {
+            if (giamGia.getNgayBatDau() != null && giamGia.getNgayKetThuc() != null && giamGia.getTrangThai() != -1 && giamGia.getLoaiPhieu() == -1) {
+                System.out.println("Repository.PhieuGiamGiaService.getListLoc()" + 3);
                 pstm.setString(1, XDate.toString(giamGia.getNgayBatDau(), "MM-dd-yyyy"));
                 pstm.setString(2, XDate.toString(giamGia.getNgayKetThuc(), "MM-dd-yyyy"));
                 pstm.setInt(3, giamGia.getTrangThai());
                 pstm.setInt(4, (page - 1) * limt);
                 pstm.setInt(5, limt);
+
             }
-            if (giamGia.getNgayBatDau() != null && giamGia.getNgayKetThuc() != null) {
+            if (giamGia.getNgayBatDau() != null && giamGia.getNgayKetThuc() != null && giamGia.getLoaiPhieu() == -1 && (giamGia.getTrangThai() == -1)) {
+                System.out.println("Repository.PhieuGiamGiaService.getListLoc()" + 4);
+
                 pstm.setString(1, XDate.toString(giamGia.getNgayBatDau(), "MM-dd-yyyy"));
                 pstm.setString(2, XDate.toString(giamGia.getNgayKetThuc(), "MM-dd-yyyy"));
                 pstm.setInt(3, (page - 1) * limt);
                 pstm.setInt(4, limt);
-                
+
             }
-            
+
             rs = pstm.executeQuery();
             while (rs.next()) {
                 PhieuGiamGia pgg = new PhieuGiamGia();
@@ -252,9 +281,9 @@ public class PhieuGiamGiaService {
                 pgg.setMaPhieu(rs.getString("MaPhieu"));
                 pgg.setTenPhieu(rs.getString("TenPhieu"));
                 pgg.setLoaiPhieu(rs.getInt(("LoaiPhieu")));
-                pgg.setGiaTri(rs.getFloat("GiaTri"));
+                pgg.setGiaTri(rs.getBigDecimal("GiaTri"));
                 pgg.setSoLuongPhieu(rs.getInt("SoLuongPhieu"));
-                pgg.setDonToiThieu(rs.getFloat("DonToiThieu"));
+                pgg.setDonToiThieu(rs.getBigDecimal("DonToiThieu"));
                 pgg.setNgayBatDau(rs.getDate("NgayBatDau"));
                 pgg.setNgayKetThuc(rs.getDate("NgayKetThuc"));
                 pgg.setNgayTao(rs.getDate("NgayTao"));
@@ -265,11 +294,11 @@ public class PhieuGiamGiaService {
             return list;
         } catch (SQLException ex) {
             Logger.getLogger(PhieuGiamGiaService.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
+            return list;
         }
-        
+
     }
-    
+
     public PhieuGiamGia getPGGByMa(String ma) {
         try {
             query = "SELECT PGG.ID as ID , nv.ID AS IDNV , NV.HoVaTen , MaPhieu , TenPhieu , LoaiPhieu , GiaTri , \n"
@@ -289,9 +318,9 @@ public class PhieuGiamGiaService {
                 pgg.setMaPhieu(rs.getString("MaPhieu"));
                 pgg.setTenPhieu(rs.getString("TenPhieu"));
                 pgg.setLoaiPhieu(rs.getInt(("LoaiPhieu")));
-                pgg.setGiaTri(rs.getFloat("GiaTri"));
+                pgg.setGiaTri(rs.getBigDecimal("GiaTri"));
                 pgg.setSoLuongPhieu(rs.getInt("SoLuongPhieu"));
-                pgg.setDonToiThieu(rs.getFloat("DonToiThieu"));
+                pgg.setDonToiThieu(rs.getBigDecimal("DonToiThieu"));
                 pgg.setNgayBatDau(rs.getDate("NgayBatDau"));
                 pgg.setNgayKetThuc(rs.getDate("NgayKetThuc"));
                 pgg.setNgayTao(rs.getDate("NgayTao"));
@@ -305,13 +334,13 @@ public class PhieuGiamGiaService {
             return null;
         }
     }
-    
+
     public static NhanVien getNhanVien(long idPGG) {
         //ArrayList<PhieuGiamGia> listPGG= new ArrayList<>();
         NhanVien nv = null;
         Connection conn = DBConnection.getConnect();
         String sql = "select NHANVIEN.ID,HoVaTen from PHIEU_GIAM_GIA join NHANVIEN on PHIEU_GIAM_GIA.ID= NHANVIEN.ID where PHIEU_GIAM_GIA.ID=?";
-        
+
         try {
             PreparedStatement pr = conn.prepareStatement(sql);
             pr.setObject(1, idPGG);
@@ -327,7 +356,7 @@ public class PhieuGiamGiaService {
         }
         return nv;
     }
-    
+
     public List<Object> getAllHDByMaPhieu(long ma) {
         List<Object> list = new ArrayList<>();
         try {
@@ -336,19 +365,19 @@ public class PhieuGiamGiaService {
                     + "WHERE MaPhieu LIKE ?";
             con = DBConnection.getConnect();
             pstm = con.prepareStatement(query);
-            pstm.setLong(1,  ma );
+            pstm.setLong(1, ma);
             rs = pstm.executeQuery();
-            int i =1;
-            while (rs.next()) {                
+            int i = 1;
+            while (rs.next()) {
                 HoaDon hd = new HoaDon();
                 hd.setNgayTao(rs.getDate("NgayTao"));
                 hd.setMaHoaDon(rs.getString("MaHoaDon"));
                 PhieuGiamGia pgg = new PhieuGiamGia();
                 pgg.setMaPhieu(rs.getString("MaPhieu"));
                 pgg.setLoaiPhieu(0);
-                Object [] ob = new Object[]{
-                    i,rs.getString("MaHoaDon"), rs.getString("MaPhieu"),rs.getDate("NgayTao"),rs.getInt("LoaiPhieu")==0 ? rs.getFloat("GiaTri")+" % ":
-                        rs.getFloat("GiaTri")+" VND "
+                Object[] ob = new Object[]{
+                    i, rs.getString("MaHoaDon"), rs.getString("MaPhieu"), rs.getDate("NgayTao"), rs.getInt("LoaiPhieu") == 0 ? rs.getFloat("GiaTri") + " % "
+                    : rs.getFloat("GiaTri") + " VND "
                 };
                 list.add(ob);
             }
@@ -357,7 +386,7 @@ public class PhieuGiamGiaService {
             Logger.getLogger(PhieuGiamGiaService.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
-        
+
     }
 
 //     public ArrayList<PhieuGiamGia> getLoc(Date NgayBatDau, Date NgayKetThuc, int LoaiPhieu, int TrangThai){
@@ -462,7 +491,7 @@ public class PhieuGiamGiaService {
         }
         return row;
     }
-    
+
     public Integer SuaPGG(PhieuGiamGia pgg) {
         Integer row = null;
         Connection conn = DBConnection.getConnect();
@@ -480,13 +509,13 @@ public class PhieuGiamGiaService {
             pr.setObject(7, pgg.getNgayKetThuc());
             pr.setObject(8, pgg.getMoTa());
             pr.setObject(9, pgg.getMaPhieu());
-            
+
             row = pr.executeUpdate();
         } catch (Exception e) {
         }
         return row;
     }
-    
+
     public Integer XoaPGG(String ma) {
         Integer row = null;
         Connection conn = DBConnection.getConnect();
@@ -500,7 +529,7 @@ public class PhieuGiamGiaService {
         }
         return row;
     }
-    
+
     public ArrayList<PhieuGiamGia> getPhanTrang(int page) {
 //        paginate();
         ArrayList<PhieuGiamGia> listPGG = new ArrayList<>();
@@ -513,7 +542,7 @@ public class PhieuGiamGiaService {
             pr.setObject(1, startRow);
             pr.setObject(2, endRow);
             ResultSet rs = pr.executeQuery();
-            
+
             while (rs.next()) {
                 PhieuGiamGia pgg = new PhieuGiamGia();
 //                NhanVien nv= new NhanVien();
@@ -523,15 +552,15 @@ public class PhieuGiamGiaService {
                 pgg.setMaPhieu(rs.getString("MaPhieu"));
                 pgg.setTenPhieu(rs.getString("TenPhieu"));
                 pgg.setLoaiPhieu(rs.getInt("LoaiPhieu"));
-                pgg.setGiaTri(rs.getFloat("GiaTri"));
+                pgg.setGiaTri(rs.getBigDecimal("GiaTri"));
                 pgg.setSoLuongPhieu(rs.getInt("SoLuongPhieu"));
-                pgg.setDonToiThieu(rs.getFloat("DonToiThieu"));
+                pgg.setDonToiThieu(rs.getBigDecimal("DonToiThieu"));
                 pgg.setNgayBatDau(rs.getDate("NgayBatDau"));
                 pgg.setNgayKetThuc(rs.getDate("NgayKetThuc"));
                 pgg.setNgayTao(rs.getDate("NgayTao"));
                 pgg.setMoTa(rs.getString("MoTa"));
                 pgg.setTrangThai(rs.getInt("TrangThai"));
-                
+
                 listPGG.add(pgg);
             }
         } catch (Exception e) {
@@ -539,7 +568,7 @@ public class PhieuGiamGiaService {
         }
         return listPGG;
     }
-    
+
     public Integer countPageItem(int page) {
 //        paginate();
         int startRow = (page - 1) * 10 + 1;
@@ -559,7 +588,7 @@ public class PhieuGiamGiaService {
         }
         return 0;
     }
-    
+
     public int getRowCountPGG() {
         String countSql = "SELECT COUNT(*) AS totalRows FROM PHIEU_GIAM_GIA";
         Connection con = DBConnection.getConnect();

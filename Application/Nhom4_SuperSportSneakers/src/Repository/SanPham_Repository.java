@@ -127,7 +127,7 @@ public class SanPham_Repository {
         return false;
     }
 
-    public List<SanPham> get(int page, int limt) {
+    public List<SanPham> get1(int page, int limt) {
         List<SanPham> list = new ArrayList<>();
         String sql = "Select ID,MaSP, TenSP, TrangThai From SANPHAM " + "ORDER BY ID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;";
 

@@ -11,7 +11,7 @@ public class DBConnection {
 
     public static String USER = "sa";
     public static String PASS = "abc12345";
-    public static String URL = "jdbc:sqlserver://localhost;databaseName= SuperSportSneakers ;user=sa ;password=abc12345; encrypt=true;trustServerCertificate=true;";
+    public static String URL = "jdbc:sqlserver://localhost;databaseName= SuperSportSneakers2 ;user=sa ;password=abc12345; encrypt=true;trustServerCertificate=true;";
 
     static {
         try {
