@@ -24,34 +24,26 @@ import com.google.zxing.NotFoundException;
 import com.google.zxing.Result;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
-import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
-import pro1041.team_3.swing.jnafilechooser.api.JnaFileChooser;
-import raven.application.Application;
+import static raven.application.form.other.Form_SPCT.spct;
 import raven.toast.Notifications;
 
 /**
  *
  * @author vutu8
  */
-public class Form_SPCT extends javax.swing.JPanel {
+public class Form_SPCT_NV extends javax.swing.JPanel {
 
     private static SanPham_Repository sanPham_Repository = new SanPham_Repository();
     private static SanPhamCT_Repository sanPhamCT_Repository = new SanPhamCT_Repository();
@@ -90,7 +82,7 @@ public class Form_SPCT extends javax.swing.JPanel {
     private WebcamPanel webcamPanel;
     private Thread thread;
 
-    public Form_SPCT() {
+    public Form_SPCT_NV() {
         initComponents();
         listSP1 = sanPham_Repository.get1(page, 5);
         listSPCT1 = sanPhamCT_Repository.get(page, 10);
@@ -118,7 +110,7 @@ public class Form_SPCT extends javax.swing.JPanel {
         soTrang1.setText(page + " / " + gioiHanPage);
     }
 
-    private void initWebcam() {
+     private void initWebcam() {
         Dimension d = new Dimension(100, 100);
         webcam = Webcam.getWebcams().get(0);
         webcam.setCustomViewSizes(new Dimension[]{d});
@@ -430,39 +422,10 @@ public class Form_SPCT extends javax.swing.JPanel {
             tblModelSanPham.addRow(rows);
         }
     }
-
-    
-
-    public SanPham getSanPham() {
-        String maSanPham;
-        int index = tblSanPham.getSelectedRow();
-        if (txtMaSanPham.getText().isEmpty()) {
-            maSanPham = sanPham_Repository.MaTuDongSanPham();
-        } else {
-            maSanPham = txtMaSanPham.getText();
-        }
-        String tenSanPham = txtTenSanPham.getText();
-        if (tenSanPham.isEmpty()) {
-            Notifications.getInstance().show(Notifications.Type.INFO, Notifications.Location.TOP_CENTER, "Vui lòng không để trống.");
-            return null;
-        }
-
-        int trangThai = 0;
-        if (cboTrangThaiSanPham.getSelectedIndex() == 0) {
-            trangThai = 0;
-        } else if (cboTrangThaiSanPham.getSelectedIndex() == 1) {
-            trangThai = 1;
-        } else if (cboTrangThaiSanPham.getSelectedIndex() == 2) {
-            trangThai = 2;
-        }
-        return new SanPham(maSanPham, tenSanPham, trangThai);
-    }
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton4 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -482,8 +445,6 @@ public class Form_SPCT extends javax.swing.JPanel {
         txtTenSanPham = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         cboTrangThaiSanPham = new javax.swing.JComboBox<>();
-        btnAdd_SanPham = new javax.swing.JButton();
-        btnUpdate_SanPham = new javax.swing.JButton();
         btnReset_SanPham = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
@@ -516,28 +477,14 @@ public class Form_SPCT extends javax.swing.JPanel {
         jLabel16 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         txtMoTa1 = new javax.swing.JTextArea();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton13 = new javax.swing.JButton();
         soTrang = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
         txtSoLuong1 = new javax.swing.JTextField();
         jButton14 = new javax.swing.JButton();
-        btnAdd_SanPhamChiTiet = new javax.swing.JButton();
-        jButton16 = new javax.swing.JButton();
-        jButton17 = new javax.swing.JButton();
-        jButton18 = new javax.swing.JButton();
-        jButton19 = new javax.swing.JButton();
-        jButton20 = new javax.swing.JButton();
-
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/raven/icon/png/plus.png"))); // NOI18N
-
-        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel2.setFont(new java.awt.Font("Arial", 3, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 102, 0));
         jLabel2.setText("Danh Sách Sản Phẩm");
-        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(351, 6, -1, -1));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Tìm Kiếm Sản Phẩm"));
 
@@ -611,14 +558,11 @@ public class Form_SPCT extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(cboTrangThai, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(txtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
+                .addComponent(txtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(btnQRScan)
                 .addGap(17, 17, 17))
         );
-
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cboKichThuoc, cboMauSac, cboThuongHieu, cboTrangThai});
-
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -631,15 +575,11 @@ public class Form_SPCT extends javax.swing.JPanel {
                     .addComponent(cboTrangThai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cboTenGiay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(btnQRScan)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 12, Short.MAX_VALUE))
         );
-
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cboKichThuoc, cboMauSac, cboThuongHieu, cboTrangThai});
-
-        add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 40, 1180, -1));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Sản Phẩm", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 3, 14))); // NOI18N
 
@@ -670,20 +610,6 @@ public class Form_SPCT extends javax.swing.JPanel {
         jLabel6.setText("Trạng Thái:");
 
         cboTrangThaiSanPham.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Đang Kinh Doanh", "Ngừng Kinh Doanh", "Đã Hết Hàng" }));
-
-        btnAdd_SanPham.setIcon(new javax.swing.ImageIcon(getClass().getResource("/raven/icon/png/add.png"))); // NOI18N
-        btnAdd_SanPham.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAdd_SanPhamActionPerformed(evt);
-            }
-        });
-
-        btnUpdate_SanPham.setIcon(new javax.swing.ImageIcon(getClass().getResource("/raven/icon/png/update.png"))); // NOI18N
-        btnUpdate_SanPham.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUpdate_SanPhamActionPerformed(evt);
-            }
-        });
 
         btnReset_SanPham.setIcon(new javax.swing.ImageIcon(getClass().getResource("/raven/icon/png/clean.png"))); // NOI18N
         btnReset_SanPham.addActionListener(new java.awt.event.ActionListener() {
@@ -761,16 +687,9 @@ public class Form_SPCT extends javax.swing.JPanel {
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnAdd_SanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnUpdate_SanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
                         .addComponent(btnReset_SanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(56, 56, 56))))
         );
-
-        jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnAdd_SanPham, btnReset_SanPham, btnUpdate_SanPham});
-
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -804,14 +723,9 @@ public class Form_SPCT extends javax.swing.JPanel {
                     .addComponent(jLabel6)
                     .addComponent(cboTrangThaiSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(btnUpdate_SanPham, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnAdd_SanPham, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnReset_SanPham))
+                .addComponent(btnReset_SanPham)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
-
-        add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 118, 1030, 220));
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Chi Tiết Sản Phẩm", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -915,38 +829,12 @@ public class Form_SPCT extends javax.swing.JPanel {
 
         jPanel3.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(764, 285, 251, 95));
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/raven/icon/png/plus.png"))); // NOI18N
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-        jPanel3.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(976, 83, 33, -1));
-
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/raven/icon/png/plus.png"))); // NOI18N
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-        jPanel3.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(976, 112, 33, 22));
-
-        jButton13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/raven/icon/png/plus.png"))); // NOI18N
-        jButton13.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton13ActionPerformed(evt);
-            }
-        });
-        jPanel3.add(jButton13, new org.netbeans.lib.awtextra.AbsoluteConstraints(976, 140, 33, 22));
-
         soTrang.setText("1 / 2");
         jPanel3.add(soTrang, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 342, 55, 38));
 
         jLabel17.setText("Số Lượng");
         jPanel3.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(677, 251, -1, -1));
         jPanel3.add(txtSoLuong1, new org.netbeans.lib.awtextra.AbsoluteConstraints(764, 251, 190, -1));
-
-        add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 340, 1020, 390));
 
         jButton14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/raven/icon/png/clean.png"))); // NOI18N
         jButton14.setText("Reset");
@@ -955,178 +843,89 @@ public class Form_SPCT extends javax.swing.JPanel {
                 jButton14ActionPerformed(evt);
             }
         });
-        add(jButton14, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 670, 140, 40));
 
-        btnAdd_SanPhamChiTiet.setIcon(new javax.swing.ImageIcon(getClass().getResource("/raven/icon/png/add.png"))); // NOI18N
-        btnAdd_SanPhamChiTiet.setText("Add");
-        btnAdd_SanPhamChiTiet.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAdd_SanPhamChiTietActionPerformed(evt);
-            }
-        });
-        add(btnAdd_SanPhamChiTiet, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 370, 140, 40));
-
-        jButton16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/raven/icon/png/update.png"))); // NOI18N
-        jButton16.setText("Update");
-        jButton16.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton16ActionPerformed(evt);
-            }
-        });
-        add(jButton16, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 420, 140, 40));
-
-        jButton17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/raven/icon/png/template.png"))); // NOI18N
-        jButton17.setText("Template ");
-        jButton17.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton17ActionPerformed(evt);
-            }
-        });
-        add(jButton17, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 470, 140, 40));
-
-        jButton18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/raven/icon/png/file-import.png"))); // NOI18N
-        jButton18.setText("Import Excel");
-        jButton18.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton18ActionPerformed(evt);
-            }
-        });
-        add(jButton18, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 520, 140, 40));
-
-        jButton19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/raven/icon/png/xls.png"))); // NOI18N
-        jButton19.setText("Export Excel");
-        jButton19.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton19ActionPerformed(evt);
-            }
-        });
-        add(jButton19, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 570, 140, 40));
-
-        jButton20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/raven/icon/png/qr-code.png"))); // NOI18N
-        jButton20.setText("Export QR");
-        jButton20.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton20ActionPerformed(evt);
-            }
-        });
-        add(jButton20, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 620, 140, 40));
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1180, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(345, 345, 345)
+                            .addComponent(jLabel2))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(4, 4, 4)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 1020, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(10, 10, 10)
+                            .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 724, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jLabel2)
+                    .addGap(6, 6, 6)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(4, 4, 4)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(2, 2, 2)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(330, 330, 330)
+                            .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-        page--;
-        if (page >= 1) {
-            soTrang.setText(page + " / " + gioiHanPage);
-            fillToTableSanPhamChiTiet(sanPhamCT_Repository.get(page, 10));
-        } else {
-            page = 1;
-        }
-    }//GEN-LAST:event_jButton12ActionPerformed
+    private void cboMauSacItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboMauSacItemStateChanged
+        initSearch();
+    }//GEN-LAST:event_cboMauSacItemStateChanged
 
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        page++;
-        if (page <= gioiHanPage) {
-            fillToTableSanPhamChiTiet(sanPhamCT_Repository.get(page, 10));
-            soTrang.setText(page + " / " + gioiHanPage);
-            return;
-        }
-        page = gioiHanPage;
-    }//GEN-LAST:event_jButton9ActionPerformed
+    private void cboThuongHieuItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboThuongHieuItemStateChanged
+        initSearch();
+    }//GEN-LAST:event_cboThuongHieuItemStateChanged
 
-    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        fillToTableSanPhamChiTiet(sanPhamCT_Repository.get(1, 10));
-        soTrang.setText(page + " / " + gioiHanPage);
-    }//GEN-LAST:event_jButton11ActionPerformed
+    private void cboKichThuocItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboKichThuocItemStateChanged
+        initSearch();
+    }//GEN-LAST:event_cboKichThuocItemStateChanged
 
-    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        fillToTableSanPhamChiTiet(sanPhamCT_Repository.get(gioiHanPage, 10));
-        soTrang.setText(page + " / " + gioiHanPage);
-    }//GEN-LAST:event_jButton10ActionPerformed
+    private void cboTrangThaiItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboTrangThaiItemStateChanged
+        initSearch();
+    }//GEN-LAST:event_cboTrangThaiItemStateChanged
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        fillToTableSanPham(sanPham_Repository.get1(1, 5));
-        soTrang1.setText(page + " / " + gioiHanPage);
-    }//GEN-LAST:event_jButton5ActionPerformed
-
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        page--;
-        if (page >= 1) {
-            soTrang1.setText(page + " / " + gioiHanPage);
-            fillToTableSanPham(sanPham_Repository.get1(page, 5));
-        } else {
-            page = 1;
-        }
-    }//GEN-LAST:event_jButton6ActionPerformed
-
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        page++;
-        if (page <= gioiHanPage) {
-            fillToTableSanPham(sanPham_Repository.get1(page, 5));
-            soTrang1.setText(page + " / " + gioiHanPage);
-            return;
-        }
-        page = gioiHanPage;
-    }//GEN-LAST:event_jButton7ActionPerformed
-
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        fillToTableSanPham(sanPham_Repository.get1(gioiHanPage, 5));
-        soTrang1.setText(page + " / " + gioiHanPage);
-    }//GEN-LAST:event_jButton8ActionPerformed
-
-    private void btnAdd_SanPhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdd_SanPhamActionPerformed
-        SanPham sp = getSanPham();
-        if (sp == null) {
-            Notifications.getInstance().show(Notifications.Type.INFO, Notifications.Location.TOP_CENTER, "Xảy ra lỗi vui lòng kiểm tra lại.");
-            return;
-        } else {
-            int check = JOptionPane.showConfirmDialog(this, "Bạn có muốn thêm sản phẩm không ?", "Xác nhận", JOptionPane.YES_NO_OPTION);
-            if (check == JOptionPane.YES_OPTION) {
-                // Người dùng chọn "Có"
-                sanPham_Repository.addSanPham(sp);
-                listSP = sanPham_Repository.get1(page, 5);
-                fillToTableSanPham(listSP);
-                Notifications.getInstance().show(Notifications.Type.INFO, Notifications.Location.TOP_CENTER, "Bạn đã thêm thành công sản phẩm mới.");
-            } else if (check == JOptionPane.NO_OPTION) {
-                // Người dùng chọn "Không"
-                Notifications.getInstance().show(Notifications.Type.INFO, Notifications.Location.TOP_CENTER, "Bạn đã thoát thêm sản phẩm.");
-                return;
-            } else {
-                // Người dùng đóng hoặc đặt lại hộp thoại
-                System.out.println("Hộp thoại đã đóng hoặc đặt lại.");
+    private void btnQRScanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQRScanActionPerformed
+        if (webcam != null) {
+            if (webcam.isOpen()) {
+                webcam.close();
+                thread.stop();
+                dlScanQr.setVisible(false);
             }
         }
-    }//GEN-LAST:event_btnAdd_SanPhamActionPerformed
+        initWebcam();
+        captureThread();
+        dlScanQr.setVisible(true);
+        dlScanQr.setSize(500, 500);
+        dlScanQr.setLocationRelativeTo(null);
+    }//GEN-LAST:event_btnQRScanActionPerformed
 
-    private void btnUpdate_SanPhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdate_SanPhamActionPerformed
-        SanPham sp = getSanPham();
-        if (sp == null) {
-            Notifications.getInstance().show(Notifications.Type.INFO, Notifications.Location.TOP_CENTER, "Xảy ra lỗi vui lòng kiểm tra lại.");
-            return;
-        } else {
-            int check = JOptionPane.showConfirmDialog(this, "Bạn có muốn sửa sản phẩm không ?", "Xác nhận", JOptionPane.YES_NO_OPTION);
-            if (check == JOptionPane.YES_OPTION) {
-                // Người dùng chọn "Có"
-                String maSp = txtMaSanPham.getText();
-                sanPham_Repository.updateSanPham(sp, maSp);
-                listSP = sanPham_Repository.get1(page, 5);
-                fillToTableSanPham(listSP);
-                Notifications.getInstance().show(Notifications.Type.INFO, Notifications.Location.TOP_CENTER, "Bạn đã sửa thành công sản phẩm.");
-            } else if (check == JOptionPane.NO_OPTION) {
-                // Người dùng chọn "Không"
-                Notifications.getInstance().show(Notifications.Type.INFO, Notifications.Location.TOP_CENTER, "Bạn đã thoát sửa sản phẩm.");
-                return;
-            } else {
-                // Người dùng đóng hoặc đặt lại hộp thoại
-                System.out.println("Hộp thoại đã đóng hoặc đặt lại.");
-            }
-        }
-    }//GEN-LAST:event_btnUpdate_SanPhamActionPerformed
+    private void cboTenGiayItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboTenGiayItemStateChanged
+        initSearch();
+    }//GEN-LAST:event_cboTenGiayItemStateChanged
 
-    private void btnReset_SanPhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReset_SanPhamActionPerformed
-        txtMaSanPham.setText("");
-        txtTenSanPham.setText("");
-        cboTrangThaiSanPham.setSelectedIndex(0);
-        fillToTableSanPham(listSP1);
-    }//GEN-LAST:event_btnReset_SanPhamActionPerformed
+    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
+        List<SanPhamChiTiet> listSearch = sanPhamCT_Repository.search_SanPhamChiTiet(txtSearch.getText().trim());
+        System.out.println(listSearch);
+        fillToTableSanPhamChiTiet(listSearch);
+    }//GEN-LAST:event_txtSearchKeyReleased
 
     private void tblSanPhamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSanPhamMouseClicked
         int index = tblSanPham.getSelectedRow();
@@ -1147,198 +946,42 @@ public class Form_SPCT extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_tblSanPhamMouseClicked
 
-    private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
-        txtMaSPCT.setText("");
-        txtGiaBan.setText("");
-        txtGiaNiemYet.setText("");
-        txtMoTa1.setText("");
-        cboTenGiay.setSelectedIndex(0);
-        txtSoLuong1.setText("");
-        cboThuongHieu1.setSelectedIndex(0);
-        cboThuongHieu.setSelectedIndex(0);
-        cboKichThuoc.setSelectedIndex(0);
-        cboKichThuoc1.setSelectedIndex(0);
-        cboMauSac.setSelectedIndex(0);
-        cboMauSac1.setSelectedIndex(0);
-        cboTenGiay1.setSelectedIndex(0);
-        cboTrangThai1.setSelectedIndex(0);
-        cboTrangThai.setSelectedIndex(0);
-        fillToTableSanPhamChiTiet(listSPCT1);
-    }//GEN-LAST:event_jButton14ActionPerformed
+    private void btnReset_SanPhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReset_SanPhamActionPerformed
+        txtMaSanPham.setText("");
+        txtTenSanPham.setText("");
+        cboTrangThaiSanPham.setSelectedIndex(0);
+        fillToTableSanPham(listSP1);
+    }//GEN-LAST:event_btnReset_SanPhamActionPerformed
 
-    private void btnAdd_SanPhamChiTietActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdd_SanPhamChiTietActionPerformed
-        SanPhamChiTiet spct = getSanPhamChiTiet();
-        if (spct == null) {
-            Notifications.getInstance().show(Notifications.Type.INFO, Notifications.Location.TOP_CENTER, "Vui lòng thực hiện lại.");
-            return;
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        fillToTableSanPham(sanPham_Repository.get1(1, 5));
+        soTrang1.setText(page + " / " + gioiHanPage);
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        fillToTableSanPham(sanPham_Repository.get1(gioiHanPage, 5));
+        soTrang1.setText(page + " / " + gioiHanPage);
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        page--;
+        if (page >= 1) {
+            soTrang1.setText(page + " / " + gioiHanPage);
+            fillToTableSanPham(sanPham_Repository.get1(page, 5));
         } else {
-            int check = JOptionPane.showConfirmDialog(this, "Bạn có muốn thêm sản phẩm chi tiết không ?", "Xác nhận", JOptionPane.YES_NO_OPTION);
-
-            if (check == JOptionPane.YES_OPTION) {
-                // Người dùng chọn "Có"
-                sanPhamCT_Repository.insertSPCT(spct);
-                listSPCT = sanPhamCT_Repository.get(page, 10);
-                fillToTableSanPhamChiTiet(listSPCT);
-                Notifications.getInstance().show(Notifications.Type.INFO, Notifications.Location.TOP_CENTER, "Đã thêm thành công sản phẩm chi tiết.");
-            } else if (check == JOptionPane.NO_OPTION) {
-                // Người dùng chọn "Không"
-                Notifications.getInstance().show(Notifications.Type.INFO, Notifications.Location.TOP_CENTER, "Bạn đã thoát thêm sản phẩm chi tiết.");
-                return;
-            } else {
-                // Người dùng đóng hoặc đặt lại hộp thoại
-                System.out.println("Hộp thoại đã đóng hoặc đặt lại.");
-            }
-
+            page = 1;
         }
-    }//GEN-LAST:event_btnAdd_SanPhamChiTietActionPerformed
+    }//GEN-LAST:event_jButton6ActionPerformed
 
-    private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
-        SanPhamChiTiet spct = getSanPhamChiTiet();
-        if (spct == null) {
-            Notifications.getInstance().show(Notifications.Type.INFO, Notifications.Location.TOP_CENTER, "Vui lòng thực hiện lại.");
-            return;
-        } else {
-            // Hiển thị hộp thoại xác nhận
-            int check = JOptionPane.showConfirmDialog(this, "Bạn có muốn sửa sản phẩm chi tiết không ?", "Xác nhận", JOptionPane.YES_NO_OPTION);
-
-            // Xử lý dựa trên lựa chọn của người dùng
-            if (check == JOptionPane.YES_OPTION) {
-                // Người dùng chọn "Có"
-                String maSPCT = txtMaSPCT.getText();
-                sanPhamCT_Repository.updateSPCT(spct, maSPCT);
-                listSPCT = sanPhamCT_Repository.get(page, 10);
-                fillToTableSanPhamChiTiet(listSPCT);
-                Notifications.getInstance().show(Notifications.Type.INFO, Notifications.Location.TOP_CENTER, "Đã sửa thành công sản phẩm chi tiết.");
-            } else if (check == JOptionPane.NO_OPTION) {
-                // Người dùng chọn "Không"
-                Notifications.getInstance().show(Notifications.Type.INFO, Notifications.Location.TOP_CENTER, "Bạn đã thoát sửa sản phẩm chi tiết.");
-                return;
-            } else {
-                // Người dùng đóng hoặc đặt lại hộp thoại
-                System.out.println("Hộp thoại đã đóng hoặc đặt lại.");
-            }
-
-        }
-    }//GEN-LAST:event_jButton16ActionPerformed
-
-    private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
-        // BTN export mẫu
-        JnaFileChooser jfc = new JnaFileChooser();
-        jfc.setMode(JnaFileChooser.Mode.Directories);
-        if (!jfc.showOpenDialog((JFrame) SwingUtilities.getAncestorOfClass(JFrame.class, this))) {
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        page++;
+        if (page <= gioiHanPage) {
+            fillToTableSanPham(sanPham_Repository.get1(page, 5));
+            soTrang1.setText(page + " / " + gioiHanPage);
             return;
         }
-        String path = jfc.getSelectedFile().getAbsolutePath();
-        File file = new File(path + "\\MauImport.xlsx");
-
-        if (chiTiet_Impl.exportMau(file)) {
-            JOptionPane.showMessageDialog(this, "Tải mẫu thành công", "Export", JOptionPane.INFORMATION_MESSAGE);
-            if (Desktop.isDesktopSupported()) {
-                Desktop desktop = Desktop.getDesktop();
-                if (file.exists()) {
-                    try {
-                        desktop.open(file);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                        JOptionPane.showMessageDialog(this, "Mở thất bại", "Export", JOptionPane.INFORMATION_MESSAGE);
-                    }
-                }
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "Thất bại", "Export", JOptionPane.INFORMATION_MESSAGE);
-        }
-    }//GEN-LAST:event_jButton17ActionPerformed
-
-    private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
-        //BTN Import Excel
-        JFileChooser avatarChooser = new JFileChooser("D:\\");
-        FileNameExtensionFilter avatarFilter = new FileNameExtensionFilter("Exel File", "xlsx");
-        avatarChooser.setFileFilter(avatarFilter);
-        avatarChooser.setAcceptAllFileFilterUsed(false);
-        int selectFileCheck = avatarChooser.showOpenDialog(this);
-        File selectedFile = avatarChooser.getSelectedFile();
-        if (!(selectFileCheck == JFileChooser.APPROVE_OPTION)) {
-            return;
-        }
-        String ketQua = chiTiet_Impl.importFile(selectedFile);
-        if (ketQua.equals("Import thành công")) {
-            listSPCT = sanPhamCT_Repository.get(page, 10);
-
-            fillToTableSanPhamChiTiet(listSPCT);
-        }
-        JOptionPane.showMessageDialog(this, ketQua);
-    }//GEN-LAST:event_jButton18ActionPerformed
-
-    private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
-        JnaFileChooser jfc = new JnaFileChooser();
-        jfc.setMode(JnaFileChooser.Mode.Directories);
-        if (!jfc.showOpenDialog((JFrame) SwingUtilities.getAncestorOfClass(JFrame.class, this))) {
-            return;
-        }
-        String path = jfc.getSelectedFile().getAbsolutePath();
-        LocalDateTime local = LocalDateTime.now();
-        File file = new File(path + "\\DanhSachGiayChiTiet_" + local.getDayOfMonth() + "_" + local.getMonthValue() + "_" + local.getYear() + ".xlsx");
-
-        if (chiTiet_Impl.export(file)) {
-            JOptionPane.showMessageDialog(this, "Export thành công", "Export", JOptionPane.INFORMATION_MESSAGE);
-            if (Desktop.isDesktopSupported()) {
-                Desktop desktop = Desktop.getDesktop();
-                if (file.exists()) {
-                    try {
-                        desktop.open(file);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                        JOptionPane.showMessageDialog(this, "Mở thất bại", "Export", JOptionPane.INFORMATION_MESSAGE);
-                    }
-                }
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "Thất bại", "Export", JOptionPane.INFORMATION_MESSAGE);
-        }
-    }//GEN-LAST:event_jButton19ActionPerformed
-
-    private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton20ActionPerformed
-        //BTN Tạo QR
-        int row = tblSanPhamChiTiet.getSelectedRow();
-        if (row == -1) {
-            JOptionPane.showMessageDialog(this, "Mời chọn một sản phẩm để tải mã QR");
-            return;
-        }
-        pro1041.team_3.swing.jnafilechooser.api.JnaFileChooser jfc = new pro1041.team_3.swing.jnafilechooser.api.JnaFileChooser();
-        jfc.setMode(pro1041.team_3.swing.jnafilechooser.api.JnaFileChooser.Mode.Directories);
-        if (!jfc.showOpenDialog((JFrame) SwingUtilities.getAncestorOfClass(JFrame.class, this))) {
-            return;
-        }
-        SanPhamChiTiet spct = listSPCT.get(row);
-        String mess = null;
-        if (chiTiet_Impl != null) {
-            mess = chiTiet_Impl.exportQr(jfc.getSelectedFile().getAbsolutePath(), spct.getMaSPCT());
-            if ("Tải thành công".equals(mess)) {
-                Notifications.getInstance().show(Notifications.Type.INFO, Notifications.Location.TOP_CENTER, "Đã thêm thành công.");
-            } else {
-                JOptionPane.showMessageDialog(this, mess);
-            }
-        } else {
-            System.out.println("Lỗi: chiTiet_Impl không được khởi tạo.");
-        }
-        if (mess.equals("Tải thành công")) {
-            Notifications.getInstance().show(Notifications.Type.INFO, Notifications.Location.TOP_CENTER, "Đã thêm thành công mã QR.");
-        } else {
-            JOptionPane.showMessageDialog(this, mess);
-        }
-    }//GEN-LAST:event_jButton20ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        Application.showForm(new Form_ThuongHieu());
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        Application.showForm(new Form_KichThuoc());
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
-        Application.showForm(new Form_MauSac());
-    }//GEN-LAST:event_jButton13ActionPerformed
+        page = gioiHanPage;
+    }//GEN-LAST:event_jButton7ActionPerformed
 
     private void tblSanPhamChiTietMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSanPhamChiTietMouseClicked
         int index = tblSanPhamChiTiet.getSelectedRow();
@@ -1382,54 +1025,59 @@ public class Form_SPCT extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_tblSanPhamChiTietMouseClicked
 
-    private void cboTenGiayItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboTenGiayItemStateChanged
-        initSearch();
-    }//GEN-LAST:event_cboTenGiayItemStateChanged
-
-    private void cboMauSacItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboMauSacItemStateChanged
-        initSearch();
-    }//GEN-LAST:event_cboMauSacItemStateChanged
-
-    private void cboThuongHieuItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboThuongHieuItemStateChanged
-        initSearch();
-    }//GEN-LAST:event_cboThuongHieuItemStateChanged
-
-    private void cboKichThuocItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboKichThuocItemStateChanged
-        initSearch();
-    }//GEN-LAST:event_cboKichThuocItemStateChanged
-
-    private void cboTrangThaiItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboTrangThaiItemStateChanged
-        initSearch();
-    }//GEN-LAST:event_cboTrangThaiItemStateChanged
-
-    private void btnQRScanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQRScanActionPerformed
-        if (webcam != null) {
-            if (webcam.isOpen()) {
-                webcam.close();
-                thread.stop();
-                dlScanQr.setVisible(false);
-            }
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        page--;
+        if (page >= 1) {
+            soTrang.setText(page + " / " + gioiHanPage);
+            fillToTableSanPhamChiTiet(sanPhamCT_Repository.get(page, 10));
+        } else {
+            page = 1;
         }
-        initWebcam();
-        captureThread();
-        dlScanQr.setVisible(true);
-        dlScanQr.setSize(500, 500);
-        dlScanQr.setLocationRelativeTo(null);
-    }//GEN-LAST:event_btnQRScanActionPerformed
+    }//GEN-LAST:event_jButton12ActionPerformed
 
-    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
-        List<SanPhamChiTiet> listSearch = sanPhamCT_Repository.search_SanPhamChiTiet(txtSearch.getText().trim());
-        System.out.println(listSearch);
-        fillToTableSanPhamChiTiet(listSearch);
-    }//GEN-LAST:event_txtSearchKeyReleased
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        page++;
+        if (page <= gioiHanPage) {
+            fillToTableSanPhamChiTiet(sanPhamCT_Repository.get(page, 10));
+            soTrang.setText(page + " / " + gioiHanPage);
+            return;
+        }
+        page = gioiHanPage;
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        fillToTableSanPhamChiTiet(sanPhamCT_Repository.get(gioiHanPage, 10));
+        soTrang.setText(page + " / " + gioiHanPage);
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        fillToTableSanPhamChiTiet(sanPhamCT_Repository.get(1, 10));
+        soTrang.setText(page + " / " + gioiHanPage);
+    }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
+        txtMaSPCT.setText("");
+        txtGiaBan.setText("");
+        txtGiaNiemYet.setText("");
+        txtMoTa1.setText("");
+        cboTenGiay.setSelectedIndex(0);
+        txtSoLuong1.setText("");
+        cboThuongHieu1.setSelectedIndex(0);
+        cboThuongHieu.setSelectedIndex(0);
+        cboKichThuoc.setSelectedIndex(0);
+        cboKichThuoc1.setSelectedIndex(0);
+        cboMauSac.setSelectedIndex(0);
+        cboMauSac1.setSelectedIndex(0);
+        cboTenGiay1.setSelectedIndex(0);
+        cboTrangThai1.setSelectedIndex(0);
+        cboTrangThai.setSelectedIndex(0);
+        fillToTableSanPhamChiTiet(listSPCT1);
+    }//GEN-LAST:event_jButton14ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAdd_SanPham;
-    private javax.swing.JButton btnAdd_SanPhamChiTiet;
     private javax.swing.JButton btnQRScan;
     private javax.swing.JButton btnReset_SanPham;
-    private javax.swing.JButton btnUpdate_SanPham;
     private javax.swing.JComboBox<String> cboKichThuoc;
     private javax.swing.JComboBox<String> cboKichThuoc1;
     private javax.swing.JComboBox<String> cboMauSac;
@@ -1444,16 +1092,7 @@ public class Form_SPCT extends javax.swing.JPanel {
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
-    private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;
-    private javax.swing.JButton jButton16;
-    private javax.swing.JButton jButton17;
-    private javax.swing.JButton jButton18;
-    private javax.swing.JButton jButton19;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton20;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;

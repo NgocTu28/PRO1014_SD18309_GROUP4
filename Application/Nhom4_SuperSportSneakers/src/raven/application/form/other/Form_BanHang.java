@@ -19,7 +19,19 @@ import Repository.HoaDon_MRepositoryM;
 import Repository.KhachHangRepositoryM;
 import Utils.MsgBox;
 import Utils.XDate;
+import com.github.sarxos.webcam.Webcam;
+import com.github.sarxos.webcam.WebcamPanel;
+import com.github.sarxos.webcam.WebcamResolution;
+import com.google.zxing.BinaryBitmap;
+import com.google.zxing.LuminanceSource;
+import com.google.zxing.MultiFormatReader;
+import com.google.zxing.NotFoundException;
+import com.google.zxing.Result;
+import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
+import com.google.zxing.common.HybridBinarizer;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.image.BufferedImage;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,9 +39,11 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 import raven.application.Application;
+import static raven.application.form.other.Form_SPCT.spct;
 
 /**
  *
@@ -53,6 +67,10 @@ public class Form_BanHang extends javax.swing.JPanel {
 
     private DefaultTableModel dtm = new DefaultTableModel();
     private static int indexHD = -1;
+    public static WebcamPanel webcamPanel = null;
+    public static Webcam webcam = null;
+    public Thread thread;
+    public Thread captureDaily;
 
     /**
      * Creates new form Form_BanHang
@@ -60,6 +78,114 @@ public class Form_BanHang extends javax.swing.JPanel {
     public Form_BanHang() {
         initComponents();
         init();
+    }
+
+    private void initWebcam() {
+         Dimension d = new Dimension(100, 100);
+        webcam = Webcam.getWebcams().get(0);
+        webcam.setCustomViewSizes(new Dimension[]{d});
+        webcam.setViewSize(d);
+
+        dlWeb = new WebcamPanel(webcam);
+        webcamPanel.setPreferredSize(d);
+        webcamPanel.setFPSDisplayed(true);
+        webcamPanel.setVisible(true);
+        webcamPanel.setDisplayDebugInfo(true);
+        webcamPanel.setImageSizeDisplayed(true);
+        webcamPanel.setMirrored(true);
+        if (jpnWebcam != null && jpnWebcam.getParent() != null) {
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    jpnWebcam.getParent().revalidate();
+                    jpnWebcam.getParent().repaint();
+                }
+            });
+        }
+
+        dlWeb.add(jpnWebcam, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 231, 173));
+
+//        executor.execute(this);
+        captureThread();
+//        loadDaily();
+
+    }
+
+//    public void loadDaily() {
+//        captureDaily = new Thread() {
+//            @Override
+//            public synchronized void run() {
+//                do {
+//                    try {
+//                        Thread.sleep(180000);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                    List<SanPhamChiTiet> list = chiTietSanPham_Repository.getToAll();
+//                    loadDataToTableSP(list);
+//                } while (true);
+//            }
+//        };
+//        captureDaily.setDaemon(true);
+//        captureDaily.start();
+//    }
+
+    private void captureThread() {
+        thread = new Thread() {
+            @Override
+            public void run() {
+                do {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+
+                    Result result = null;
+                    BufferedImage image = null;
+
+                    if (webcam.isOpen()) {
+                        if ((image = webcam.getImage()) == null) {
+                            continue;
+                        }
+                    }
+                    LuminanceSource source = new BufferedImageLuminanceSource(image);
+                    BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
+                    try {
+                        result = new MultiFormatReader().decode(bitmap);
+                    } catch (NotFoundException ex) {
+                        ex.printStackTrace();
+                        continue;
+                    }
+                    if (result != null) {
+                        String resultText = result.getText();
+                        String[] arrResult = resultText.split("\\n");
+                        txtSearch.setText(arrResult[1].substring(10));
+                        searchSanPham();
+                        webcam.close();
+                        thread.stop();
+                    }
+
+                } while (true);
+            }
+        };
+        thread.setDaemon(true);
+        thread.start();
+    }
+
+    private void searchSanPham() {
+        String keyWord = (String) txtSearch.getText();
+        if (keyWord.isEmpty() || keyWord == null) {
+            return;
+        }
+        SanPhamChiTiet result = (SanPhamChiTiet) chiTietSanPham_Repository.search_SanPhamChiTiet(keyWord);
+        if (result == null) {
+            JOptionPane.showMessageDialog(this, "Không tìm thấy");
+            return;
+        }
+
+        spct = result;
+
     }
 
     void init() {
@@ -185,7 +311,7 @@ public class Form_BanHang extends javax.swing.JPanel {
         BigDecimal tienKhachDua = BigDecimal.ZERO;
         try {
             if (khachHang != 3) {
-                tienKhachDua =new BigDecimal(txtThua.getText().trim());
+                tienKhachDua = new BigDecimal(txtThua.getText().trim());
                 //Float.parseFloat(txtThua.getText().trim());
             }
 
@@ -443,7 +569,7 @@ public class Form_BanHang extends javax.swing.JPanel {
         btnXoaGioiHang = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
+        txtSearch = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         cboMauSac = new javax.swing.JComboBox<>();
         cbiSize = new javax.swing.JComboBox<>();
@@ -503,7 +629,8 @@ public class Form_BanHang extends javax.swing.JPanel {
         jLabel10 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        jPanel9 = new javax.swing.JPanel();
+        dlWeb = new javax.swing.JPanel();
+        jpnWebcam = new javax.swing.JPanel();
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -742,7 +869,7 @@ public class Form_BanHang extends javax.swing.JPanel {
                         .addComponent(jScrollPane3)
                         .addContainerGap())
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1)
                         .addGap(53, 53, 53)
@@ -776,7 +903,7 @@ public class Form_BanHang extends javax.swing.JPanel {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1)
                     .addComponent(cboMauSac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbiSize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1146,18 +1273,29 @@ public class Form_BanHang extends javax.swing.JPanel {
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel5.setText("Đơn hàng");
 
-        jPanel9.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "QR", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
+        dlWeb.setBackground(new java.awt.Color(255, 255, 255));
+        dlWeb.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "QR", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
 
-        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
-        jPanel9.setLayout(jPanel9Layout);
-        jPanel9Layout.setHorizontalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout jpnWebcamLayout = new javax.swing.GroupLayout(jpnWebcam);
+        jpnWebcam.setLayout(jpnWebcamLayout);
+        jpnWebcamLayout.setHorizontalGroup(
+            jpnWebcamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 228, Short.MAX_VALUE)
         );
-        jPanel9Layout.setVerticalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        jpnWebcamLayout.setVerticalGroup(
+            jpnWebcamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout dlWebLayout = new javax.swing.GroupLayout(dlWeb);
+        dlWeb.setLayout(dlWebLayout);
+        dlWebLayout.setHorizontalGroup(
+            dlWebLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jpnWebcam, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        dlWebLayout.setVerticalGroup(
+            dlWebLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jpnWebcam, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -1175,7 +1313,7 @@ public class Form_BanHang extends javax.swing.JPanel {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(dlWeb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel3)))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
@@ -1207,7 +1345,7 @@ public class Form_BanHang extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(dlWeb, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1411,6 +1549,7 @@ public class Form_BanHang extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> cboTrangThaiHD;
     private javax.swing.JCheckBox chkTenPhieu;
     private javax.swing.JCheckBox ckbAll;
+    private javax.swing.JPanel dlWeb;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1445,12 +1584,11 @@ public class Form_BanHang extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField6;
+    private javax.swing.JPanel jpnWebcam;
     private javax.swing.JLabel lblCapBac;
     private javax.swing.JLabel lblDiem;
     private javax.swing.JLabel lblGiamDiem;
@@ -1466,6 +1604,7 @@ public class Form_BanHang extends javax.swing.JPanel {
     private javax.swing.JTextField txtMHD;
     private javax.swing.JTextField txtMaKH;
     private javax.swing.JTextField txtNV;
+    private javax.swing.JTextField txtSearch;
     private javax.swing.JTextField txtTenKh;
     private javax.swing.JTextField txtThanhTien;
     private javax.swing.JTextField txtThua;

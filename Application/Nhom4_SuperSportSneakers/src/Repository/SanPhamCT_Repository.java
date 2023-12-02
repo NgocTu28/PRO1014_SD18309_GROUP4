@@ -61,7 +61,7 @@ public class SanPhamCT_Repository {
         return list;
     }
 
-    public List<SanPhamChiTiet> searchItem(Long idMau, Long idSize, Long idThuongHieu, Long idSanPham) {
+    public List<SanPhamChiTiet> searchItem(Long idMau, Long idSize, Long idThuongHieu, Long idSanPham, int trangThai) {
         List<SanPhamChiTiet> list = new ArrayList<>();
         if (connect != null) {
             try {
@@ -89,6 +89,11 @@ public class SanPhamCT_Repository {
                 if (idSanPham != null) {
                     query.append(" AND SP.ID = " + idSanPham);
                 }
+
+                if (trangThai >= 0) {
+                    query.append("AND CTSP.TrangThai = " + trangThai);
+                }
+
                 String queryFinal = query.toString();
 
                 PreparedStatement ps = connect.prepareStatement(queryFinal);

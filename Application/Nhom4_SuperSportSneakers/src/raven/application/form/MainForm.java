@@ -18,18 +18,19 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import raven.application.Application;
-import raven.application.form.other.Form_SanPham;
+
 import raven.application.form.other.FormInbox;
 import raven.application.form.other.FormNhanVien;
 import raven.application.form.other.FormRead;
 import raven.application.form.other.Form_BanHang;
 import raven.application.form.other.Form_DotGiamGia;
 import raven.application.form.other.Form_KhachHang;
-import raven.application.form.other.Form_NhanVien_SanPham;
+//import raven.application.form.other.Form_NhanVien_SanPham;
 import raven.application.form.other.Form_PhieuGiamGia;
 import raven.application.form.other.Form_PhieuGiaoHang;
 import raven.application.form.other.Form_SPCT;
-import raven.application.form.other.Form_SanPhamChiTiet;
+import raven.application.form.other.Form_SPCT_NV;
+
 import raven.menu.Menu;
 import raven.menu.MenuAction;
 
@@ -87,17 +88,11 @@ public class MainForm extends JLayeredPane {
             // Application.mainForm.showForm(new DefaultForm("Form : " + index + " " + subIndex));
             if (nv.isVaitro() == false) {
                 if (index == 0) {
-                    Application.showForm(new Form_SPCT());
+                    Application.showForm(new Form_BanHang());
                 } else if (index == 1) {
-//                Application.showForm(new Form_BanHang());
-                    Application.showForm(new Form_SanPham());
-
+                    Application.showForm(new Form_SPCT_NV());
                     if (subIndex == 1) {
-                        Application.showForm(new Form_SanPham());
-                    } else if (subIndex == 2) {
-                        Application.showForm(new Form_SanPhamChiTiet());
-                    } else if (subIndex == 3) {
-                        Application.showForm(new Form_PhieuGiamGia());
+                        Application.showForm(new Form_SPCT());
                     } else {
                         action.cancel();
                     }
@@ -124,17 +119,16 @@ public class MainForm extends JLayeredPane {
                 } else {
                     action.cancel();
                 }
-            }else if(nv.isVaitro() == true){
+            } else if (nv.isVaitro() == true) {
                 if (index == 0) {
                     Application.showForm(new Form_BanHang());
                 } else if (index == 1) {
 //                Application.showForm(new Form_BanHang());
-                    Application.showForm(new Form_SanPham());
 
                     if (subIndex == 1) {
-                        Application.showForm(new Form_SanPham());
+
                     } else if (subIndex == 2) {
-                        Application.showForm(new Form_NhanVien_SanPham());
+//                        Application.showForm(new Form_NhanVien_SanPham());
                     } else if (subIndex == 3) {
                         Application.showForm(new Form_PhieuGiamGia());
                     } else {

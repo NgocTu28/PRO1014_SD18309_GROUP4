@@ -532,7 +532,7 @@ public class Form_MauSac extends javax.swing.JPanel {
     }//GEN-LAST:event_rboKhong_searchActionPerformed
 
     private void btnClean1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClean1ActionPerformed
-        Application.showForm(new Form_SanPhamChiTiet());
+        Application.showForm(new Form_SPCT());
     }//GEN-LAST:event_btnClean1ActionPerformed
 
 

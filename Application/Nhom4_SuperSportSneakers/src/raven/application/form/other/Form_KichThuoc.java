@@ -545,7 +545,7 @@ private void fillToTable(List<KichThuoc> listKT) {
     }//GEN-LAST:event_btnSauCuoiActionPerformed
 
     private void btnClean1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClean1ActionPerformed
-        Application.showForm(new Form_SanPhamChiTiet());
+        Application.showForm(new Form_SPCT());
     }//GEN-LAST:event_btnClean1ActionPerformed
 
 
